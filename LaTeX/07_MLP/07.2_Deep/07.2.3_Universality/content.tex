@@ -1,0 +1,20 @@
+%!TEX root=../../../root.tex
+
+What class of functions can we represent with a MLP?
+
+If $\sigma$ is sigmoidal, we have the \emph{Universal Approximation Theorem} (UAT).
+
+\begin{thm}[Universal Approximation Theorem]
+    For any compact set $\Omega \subset\mathbb{R}^p$, the space spanned by the functions $\phi(\mathbf{x}) = \sigma(\mathbf{Wx}+\mathbf{b})$ is dense in the set of continuous functions $\mathcal{C}(\Omega)$ for the uniform convergence. Thus, for any continuous function $f$ and any $\epsilon>0$, there exists $q\in\mathbb{N}$ and weights $\{ u_k \in \mathbb{R} \}_{k=1}^{q}$ such that
+		\begin{equation}
+		| f(\mathbf{x}) - \sum_{k=1}^q u_k \phi (\mathbf{x}) | \le \epsilon \quad\quad\textrm{for all}~ \mathbf{x}\in\Omega
+        \end{equation}
+\end{thm}
+What the theorem is saying is that the entire space of continous functions can be spanned with a linear combination of the function $\sigma(\mathbf{Wx}+\mathbf{b})$. 
+Note that we are always using the same $\vec{W}$ and $\vb{b}$, so we are only taking linear combinations of one $\sigma(\cdot)$, there is no composition and thus the network in the theorem has just one hidden layer. For large enough $q$, the training error can be made \emph{arbitrarily small}.
+
+UATs exist for other activations like ReLUs and locally bounded non-polynomials. The problem with these theorems is that the proofs are \emph{not constructive}, and thus do not say how to compute the weights to reach a desired accuracy.
+
+Some theorems also give bounds for the \emph{width} $q$ (``number of neurons''), while some show universality for \emph{$>1$ layers} (deep networks).
+
+Nevertheless, in general, we deal with nonconvex functions. Empirical results show that large $q$ combined gradient descent leads to very good approximations.

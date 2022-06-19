@@ -1,0 +1,37 @@
+%!TEX root=../../../root.tex
+
+We call the composition with linear $f$ and nonlinear $\sigma$:
+\begin{equation}
+    g_{\bm{\Theta}}(\mathbf{x}) =
+	(\sigma \circ f_{\bm{\Theta}_n}) 
+	\circ (\sigma \circ f_{\bm{\Theta}_{n-1}})
+	\circ \cdots 
+	\circ (\sigma \circ  f_{\bm{\Theta}_1})(\mathbf{x}) 
+\end{equation}
+a \emph{multi-layer perceptron} (MLP) or \emph{deep feed-forward neural network}. As can be seen in the expression, the parameters or \emph{weights} of the MLP are scattered across the layers; these only refer to the parameters of the linear transformations, while the nonlinearities are fixed.
+
+Each layer outputs an intermediate \emph{hidden representation}:
+\begin{align}
+        \mathbf{x}_{\ell+1} &= \sigma_\ell(  \mathbf{W}_\ell \mathbf{x}_{\ell}  ) \\
+	    \mathbf{x}_{\ell+1} &= \sigma_\ell(  \mathbf{W}_\ell \mathbf{x}_{\ell} + \mathbf{b}_\ell )    
+\end{align}
+where we encode the weights at layer $\ell$ in the matrix $\mathbf{W}_\ell$ and bias $\mathbf{b}_\ell$.
+
+\textbf{Remark:} The \emph{bias} can be included inside the weight matrix by writing:
+\begin{equation}
+	\mathbf{W} \mapsto \begin{pmatrix}\mathbf{W}&\mathbf{b}\end{pmatrix}\,,\quad \mathbf{x}\mapsto \begin{pmatrix}\mathbf{x}\\1\end{pmatrix} 
+\end{equation}
+
+because each $f$ is \emph{linear in the parameters} just like in linear regression (note that the transformation with respect to the input $x$ would be affine, not linear).
+
+\subsubsection{Hidden units} 
+\input{07_MLP/07.2_Deep/07.2.2_MLP/07.2.2.1_Hidden_units/content.tex}
+
+\subsubsection{Single layer illustration} 
+\input{07_MLP/07.2_Deep/07.2.2_MLP/07.2.2.2_Single_layer_illustration/content.tex}
+
+\subsubsection{Output layer} 
+\input{07_MLP/07.2_Deep/07.2.2_MLP/07.2.2.3_Output_layer/content.tex}
+
+\subsubsection{Deep ReLU networks} 
+\input{07_MLP/07.2_Deep/07.2.2_MLP/07.2.2.4_Deep_ReLU_networks/content.tex}

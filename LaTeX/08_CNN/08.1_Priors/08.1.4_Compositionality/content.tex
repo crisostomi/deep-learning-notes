@@ -1,0 +1,17 @@
+%!TEX root=../../../root.tex
+
+Translational invariance is one of the most common and therefore most desirable invariances. In particular, is desirable \emph{across multiple scales}, leading to \emph{compositionality}. In a hierarchical way, we expect the data (we will concentrate on images in this chapter) to be able to be decomposed in \emph{local features} at each scale, invariant of their location in the image:
+\begin{equation}
+    z({\cal T}_v p) = z(p)  ~~~\forall p,{\cal T}_v
+\end{equation}
+where $p$ are image patches of variable size.
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=0.9\linewidth]{08/hierar}
+        \put(11,-2){\footnotesize scale $1$}
+        \put(76,-2){\footnotesize scale $n$}
+    \end{overpic}
+    \caption{A human face is still a human face even when translated, and so is a nose or an eye, and so are the edges that make up each of those, provided that when arranged together, the local features at a lower scale \textit{compose} a correct local feature at a higher scale.}
+\end{figure}

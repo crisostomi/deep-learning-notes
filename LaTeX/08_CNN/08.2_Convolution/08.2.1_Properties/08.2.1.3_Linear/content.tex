@@ -1,0 +1,27 @@
+%!TEX root=../../../../root.tex
+
+
+Convolution is a \emph{linear} operator. If we denote with ${\cal G}$ the convolution operator, we have 
+\[
+    {\cal G} f(x) = (f\star g)(x) = \int_{-\infty}^{+\infty} f(t) \underbrace{g(x-t)}_{\emph{\textrm{kernel}}} dt.
+\]
+
+It is easy to show that ${\cal G}$ is linear, since it is a direct consequence of the linearity of the integral operator upon which it is built;
+in fact, homogeneity holds
+\begin{align}
+    {\cal G} (\alpha f(x)) &= \alpha \int_{-\infty}^{+\infty} f(t) g(x-t) dt  =\alpha \, {\cal G} f(x) 
+\end{align}
+and additivity as well
+\begin{align}
+    {\cal G}(f+h)(x) &= 
+    \int_{-\infty}^{+\infty} (f+h)(t) g(x-t) dt \\
+    & = \int_{-\infty}^{+\infty} (f(t)+h(t)) g(x-t)dt \\
+    & =\int_{-\infty}^{+\infty} f(t) g(x-t) dt  + \int_{-\infty}^{+\infty} h(t) g(x-t) dt\\ 
+    &= {\cal G} f(x) + {\cal G} h(x).
+\end{align}
+
+From this, if we consider the translation (shift) operator $\mathcal{T}$, translation equivariance can then be formulated as
+\begin{equation}
+    {\cal G}( \mathcal{T} f ) = \mathcal{T} ( {\cal G} f)
+\end{equation}
+\textit{i.e} the convolution and translation operators commute.

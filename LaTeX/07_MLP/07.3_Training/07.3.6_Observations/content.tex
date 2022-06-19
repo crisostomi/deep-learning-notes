@@ -1,0 +1,11 @@
+%!TEX root=../../../root.tex
+
+\begin{itemize}
+    \item Evaluating $\nabla\ell$ with backprop is as fast as evaluating $\ell$. In fact, the forward pass is exactly the evaluation of $\ell$ via a forward traversal of the graph, and we have seen that the complexity of the backward pass for vector-to-scalar functions coincides with  a simple traversal.
+    \item Back-propagation is not just the chain rule, as some mistakenly believe. In fact, back-propagation \emph{uses} the chain rule within some more \emph{sophisticated pipeline}, comprised of a forward pass with \emph{intermediate variables} stored to then compute a backward pass. It is more precise to say that backprop is a \emph{computational} technique.
+    \item One does not backprop ``through the network'', but rather through the computational graph of the loss.
+    \item The loss of a MLP will be \emph{non-convex} in general, presenting multiple \emph{local minima}; which of these is reached depends on the \emph{weight initialization}. In practice, reaching the global optimum usually leads to overfitting, since it would mean that we are fitting the function too closely to the data, accounting for the noise. 
+    \item The loss of a MLP will be \emph{non-differentiable} in general; for example, the ReLU is not differentiable at zero. What happens is that software implementations usually return one of the one-sided derivatives. Nevertheless, \emph{numerical issues} are always behind the corner.
+    \item Lastly, keep in mind that effectively training a deep network is far from a solved problem.
+\end{itemize}
+

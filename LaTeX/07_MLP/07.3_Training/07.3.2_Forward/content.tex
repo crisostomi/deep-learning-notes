@@ -1,0 +1,53 @@
+%!TEX root=../../../root.tex
+
+The first way we can compute derivatives is by traversing the computational graph in \emph{forward mode}, that is, from input to output. Assume we have the following function 
+\begin{equation}
+    f(x) = \log x + \sqrt{\log x} 
+\end{equation}
+with the corresponding computational graph:
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{07/graph1}
+		\put(1,21){\footnotesize $x$}
+		\put(13,19){\footnotesize $\log$}
+		\put(33,21){\footnotesize $y$}
+		\put(44,20){\footnotesize $\sqrt{~}$}
+		\put(63.5,21){\footnotesize $z$}
+		\put(101,15){\footnotesize $f=y+z$}
+		\end{overpic}
+\end{center}
+
+So what we do is basically apply the \emph{chain rule} in a recursive way, starting from the input and going forward. Note that at each node the derivative is computed with respect to the input ($x$ in this case), not with respect to the preceding node. 
+\begin{equation}
+    \begin{aligned}
+        \frac{\partial x}{\partial x} &= 1\\
+        \frac{\partial y}{\partial x} &= \frac{\partial y}{\partial x} \frac{\partial x}{\partial x}=\frac{\partial \log x}{\partial x} \frac{\partial x}{\partial x} = \frac{1}{x} \frac{\partial x}{\partial x} \\
+        & = \frac{1}{x} \\
+        \frac{\partial z}{\partial x} &= \frac{\partial z}{\partial y} \frac{\partial y}{\partial x} = \frac{\partial\sqrt{y}}{\partial y} \frac{\partial y}{\partial x} = \frac{1}{2\sqrt{y}} \frac{\partial y}{\partial x} \\
+        & = \frac{1}{2\sqrt{y}} \frac{1}{x} \\
+        \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial y} \frac{\partial y}{\partial x} + \frac{\partial f}{\partial z} \frac{\partial z}{\partial x}=\frac{\partial(y+z)}{\partial y} \frac{\partial y}{\partial x} + \frac{\partial(y+z)}{\partial z} \frac{\partial z}{\partial x} = \frac{\partial y}{\partial x} +  \frac{\partial z}{\partial x} \\
+        & = \frac{1}{x} + \frac{1}{2\sqrt{y}} \frac{1}{x}
+    \end{aligned}
+    \label{eq:07:3:2:forward}
+\end{equation}
+
+This way, going forward we can compute both $f(x)$ and its derivative, as it is computed step by step from the input to the output.
+So, if we assume that each partial derivative is a primitive accessible in closed form and can be computed in $O(1)$ we have that
+\begin{center}
+cost of computing $\frac{\partial f}{\partial x}(x)$ {\Large~=~} cost of computing $f(x)$.
+\end{center}
+
+However, if the input is high-dimensional, i.e. $f:\mathbb{R}^p\to\mathbb{R}$:
+\begin{center}
+cost of computing $\nabla  f(\mathbf{x})$ {\Large~=~} $p\,~ \times$ cost of computing $f(\mathbf{x})$
+\end{center}
+since partial derivatives must be computed w.r.t. each input dimension. Now, since $p$ can be in the order of millions, this is definetely infeasible.
+
+\textbf{Remark}:
+\begin{center}
+{Automatic differentiation} $\neq$ {Symbolic differentiation}
+
+\hspace{0.6cm}{(e.g. autograd)} \quad\hspace{0.8cm} {(e.g. Mathematica)}
+\end{center}
+
+In the latter, a mathematical expression is given in input and a mathematical expression is returned, while in the former the \emph{values} are computed to generate numerical evaluations of the derivatives.

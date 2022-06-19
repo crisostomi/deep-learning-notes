@@ -1,0 +1,33 @@
+%!TEX root = ../../root.tex
+
+In the update law in \cref{eq:chap6:intro:update-law}, we have not yet clarified the role of $\alpha$. This is a \emph{hyperparameter}, meaning a parameter that does not belong to the model and does not influence the model directly, but does so indirectly by affecting the way it is fitted to the data. This parameter is always positive (otherwise we would maximize the loss function, by moving in the direction of the gradient) and is called \emph{learning rate}. 
+
+The name is due to the fact that it influences the length of a ``learning'' step of the gradient descent algorithm, and hence the rate at which the algorithm makes progress. It is not precisely the step length itself, since that would be
+\begin{equation}
+    \norm{\mathbf{x}^{(t+1)} - \mathbf{x}^{(t)}} = \norm{\alpha \nabla f(\mathbf{x}^{(t)})} = \alpha \norm{\nabla f(\mathbf{x}^{(t)})}.
+\end{equation}
+
+Nonetheless, the direct proportionality that stands means that the value of this parameter can heavily influence the evolution of the algorithm. If this value is too small, then we have slow convergence speed, \textit{i.e.} we will need more steps to reach a minimum. If it is too large, we risk \emph{overshooting}, \textit{i.e.} the algorithm starts oscillating since even though the minimum is indeed in the direction of the gradient, reaching it would require a smaller step and therefore the algorithm keeps going back and forth around it, something that is often referred to as \emph{divergence} (or \emph{convergence issues}).
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+    [trim=0cm 0cm 0cm 0cm,clip,width=0.8\linewidth]{06/steps3}
+            \put(11,-3){\footnotesize small $\alpha$}
+                    \put(45,-3){\footnotesize large $\alpha$}
+            \put(77,-3){\footnotesize optimal $\alpha$}
+            \put(63,-6){\footnotesize $\arg\min_\alpha f( \mathbf{x}^{(t)}  - \alpha\nabla f( \mathbf{x}^{(t)} ))$}
+    \end{overpic}
+    \vspace{2em}
+    \caption{Comparison of values of the learning rate $\alpha$.}
+\end{figure}
+
+Since we move in straight lines, and the function is nonlinear, we cannot know what is the overall best value for $\alpha$; if this was possible, we could just make one step with the optimal $\alpha$, i.e. a single computation, a closed-form solution, but as we know this is not (guaranteed to be) possible in the nonlinear setting. Indeed, recall that the gradient is only a local linear approximation of the behavior of the function, so we cannot hope to have just one step length that, when executed along a straight line, works well everywhere. 
+
+Instead, we can locally adjust the value of $\alpha$ according to the local information we have at a certain point, with a technique called \emph{line search}. What it does is very simple: once the direction of steepest descent is known ($- \nabla f( \mathbf{x}^{(t)})$), we seek the value $\alpha$ such that taking a step of size $\alpha \norm{\nabla f( \mathbf{x}^{(t)} )}$ in that direction makes the function decrease the most. So we have an optimization procedure inside an optimization algorithm.
+
+\subsection{Decay} 
+\input{06_Gradient/06.3_lr/decay/content.tex}
+\subsection{Momentum} 
+\input{06_Gradient/06.3_lr/momentum/content.tex}
+

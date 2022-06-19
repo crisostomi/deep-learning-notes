@@ -1,0 +1,19 @@
+%!TEX root=../../../../root.tex
+
+The problem of imaging the black hole consisted of reconstructing an image from a sparse set of spectral measurements. It is an ill-posed inverse problem, since an infinite number of possible images explain the data. Thus, optimization needed to realy heavily on priors: the problem became finding an explanation that respected prior assumptions about the visual universe while still satisfying the observed data.
+
+\begin{figure}[H]
+	\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{02/holedata}
+		\put(10,-3){\footnotesize black holes}
+		\put(10.7,-6){\footnotesize {\color{darkred}\textbf{unreliable}}}
+		\put(44.5,-3){\footnotesize astronomy}
+		\put(79,-3){\footnotesize everyday}
+		\end{overpic}
+	\end{center}
+\end{figure}
+
+\medskip\medskip\medskip
+
+If we had to choose between the datasets in figure to learn reasonable priors regarding the visual universe, one would be tempted to use black hole images; the problem is that we don't have any black hole image, the ones we have come from artistic representions or simulations, so we would be introducing a bias to obtain what we already expect. The astronomy dataset would be a good idea, while everyday images are probably too much visually different from the black hole. Nevertheless, the learning process given to the laboratories across the world was so reliable that even if feeded with different datasets, it yielded almost the same image.  

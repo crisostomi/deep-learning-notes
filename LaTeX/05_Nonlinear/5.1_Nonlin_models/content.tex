@@ -1,0 +1,23 @@
+%!TEX root = ../../root.tex
+
+After the linear model, the simplest thing is something that follows a polynomial model, and this is called \emph{polynomial regression}, expressed with the following equation:
+\begin{equation}\label{eq:poly}
+	y_i = b + \sum_{j=1}^{k}a_jx_i^j, \text{ for all data points } i=1, \dots, n
+\end{equation}
+parametrized by $b$ and the $a_j$s.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.4\textwidth]{05/polyfit}
+	\caption{Polynomial regression.}\label{fig:poly_regr}	
+\end{figure}
+
+As we increase the degree of the polynomial, also the number of the parameters to estimate will grow. Moreover, if we are dealing with data which is high dimensional then the number of the parameters is even bigger.
+More data are needed to make an informed decision about the order of the polynomial.
+
+Despite the name, polynomial regression is still linear in the parameters, but polynomial with respect to the data; for this reason instead of polynomial regression we should call it \emph{linear regression with polynomial features}. So the polynomial regression can be expressed in matrix notation by rewriting \cref{eq:poly} for every component $y_i$ as:
+\begin{equation}
+	\underbrace{\begin{pmatrix} y_1  \\ y_2  \\ \vdots  \\ y_n \end{pmatrix}}_\mathbf{y} = \underbrace{\begin{pmatrix} x_1^k & x_1^{k-1} & \dots & x_1 & 1 \\ x_2^k & x_2^{k-1} & \dots & x_2 & 1 \\ \vdots & \vdots & \vdots & \vdots & \vdots \\ x_n^k & x_n^{k-1} & \dots & x_n & 1 \end{pmatrix}}_\mathbf{X}  \underbrace{\begin{pmatrix} a_k \\ a_{k-1} \\ \vdots \\ a_1 \\ b \end{pmatrix}}_{\bm{\theta}}
+\end{equation}
+and $\mathbf{X}$ represents what we call the polynomial features.
+We can just apply the same exactly least-squares approach as we did for linear regression, but with the requirement that $k < n$ otherwise we do not have enough information to solve for all the parameters.

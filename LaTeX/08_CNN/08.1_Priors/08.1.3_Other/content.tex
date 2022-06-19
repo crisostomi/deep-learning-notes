@@ -1,0 +1,39 @@
+%!TEX root=../../../root.tex
+
+Many other types of invariance may be desirable; for example, \emph{deformation} invariance. 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.37\linewidth}
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=1\linewidth]{08/digit1.pdf}
+        \end{overpic}
+    \end{subfigure}
+    \hspace{1em}
+    \begin{subfigure}[t]{0.37\linewidth}
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=1\linewidth]{08/digit2.pdf}
+        \end{overpic}
+    \end{subfigure}
+    \caption{A digit is still a digit regardless of how much (within some degree) deformed it appears in images of handwritten text.}
+\end{figure}
+
+Consider the \emph{warping operator} ${\cal L}$ :
+\begin{equation}
+    {\cal L}_\tau f(x) = f(x - \tau(x)),
+\end{equation}
+where $\tau$ is a \textit{deformation field}. What it does is similar to the translation operator, meaning that the value of the transformed function $f(\cdot)$ at a point $x$ is computed by means of a shift; however, the amount of the shift is not a fixed offset $v$, but depends on the local behavior of deformation field $\tau$ at that point. With this definition, the desirable invariance would be:
+\begin{equation}
+    | y({\cal L}_\tau f) - y(  f)| \approx \| \nabla \tau \| \,\,\,\, \,\,\, \forall f, \tau
+\end{equation}
+where again $y$ is a classification functional such as our network, and we are enforcing that the prediction on warped data should be different from the prediction on non-warped data by an amount proportional to the amount of deformation present.
+
+We might also desire invariance to \emph{partiality} and \emph{isometric deformations}.
+
+\begin{figure}[H]
+    \centering
+	\begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{08/dogs}
+    \end{overpic}
+    \caption{Even if these two models are displaced (deformed) differently, and miss some parts (therefore are partials), we still recognize both of them as dogs.}
+\end{figure}

@@ -1,0 +1,45 @@
+%!TEX root=../root.tex
+
+Machine learning involves dealing with \emph{data}.
+The first thing to do when facing a problem involving data is to look at the data.
+
+In \cref{fig:anscombe-quartet} each dataset has the same summary statistics, but those are not sufficient to reveal the underlying structure; indeed, given those statistics, one would probably imagine those datasets like in 
+\cref{fig:anscombe-unstr-quartet}.
+
+\begin{figure}[H]
+	\begin{center}
+			\begin{overpic}
+			[trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{02/ans1}
+			\end{overpic}
+	\end{center}%
+	\caption{Structured quartet.}\label{fig:anscombe-quartet}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+			\begin{overpic}
+			[trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{02/ans2}
+			\end{overpic}
+	\end{center} 
+	\caption{Unstructured quartet.}\label{fig:anscombe-unstr-quartet}
+\end{figure}
+
+Another example of how summary statistics can be misleading is \cref{fig:dozen-datasets}, in which all the datasets
+have the same summary stats to 2 decimal places but totally different structures. Again, working with these datasets without a proper visualization would result in missing the underlying structures. Deep learning is mainly focused on catching this structure.
+
+\begin{figure}[H]
+	\centering
+	\begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{02/dozen}
+	\end{overpic}
+	\caption{Datasets with the same statistics.} \label{fig:dozen-datasets}
+\end{figure}
+
+Nevertheless, it will not always be easy to visualize the data, since data can be \emph{high-dimensional}, we may have just \emph{implicit} access to data (e.g. latent spaces) or \emph{no physical access} at all.
+
+\section{Models for describing the data} 
+\input{02_Data/2.1_Models/content.tex}
+
+\section{The curse of dimensionality} 
+\input{02_Data/2.2_Curse_dimensionality/content.tex}
+

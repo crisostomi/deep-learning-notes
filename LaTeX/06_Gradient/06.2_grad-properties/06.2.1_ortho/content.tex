@@ -1,0 +1,56 @@
+%!TEX root = ../../../root.tex
+
+We have not yet provided a formal justification of the claim that the gradient of a function at a point, which is the vector of the partial derivatives, is in direction of the steepest increase of the function at that point. 
+
+We therefore briefly introduce the concept of \emph{directional derivative}, an extension of the ``usual'' derivatives in the simple one-dimensional domain $\mathbb{R}$. While on the real axis there is only one direction, in $\mathbb{R}^n$, starting from $n = 2$ upwards, there is no fixed direction to evaluate the derivative of a function. 
+
+The directional derivative $\dv{f}{\vb{v}}$ generalizes the concept of partial derivative $\pdv{f}{x}$, which assumes that the direction in which we take the derivative is one where only one of the variables can change, while the others are fixed (one of the canonical axes). This assumption is lost when taking the derivative in a general direction $\vb{v}$. In practice, this means that (potentially) all the variables of the function change in that direction according to some law. For example, suppose we have the polynomial function
+\[
+	f: \mathbb{R}^2 \to \mathbb{R} \quad f(x, y) = x^3 + y^2
+\]
+and we want to take the directional derivative
+\[
+	\dv{f}{\vb{v}}(x, y) \quad \text{with } \vb{v} = \mqty(\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2})^{\top}	
+\]
+then the independent variables $x, y$ are not independent anymore, but are bound to the line of slope $\frac{y}{x} = \frac{\sqrt{2}}{2} \frac{2}{\sqrt{2}} = 1$ (note that to be a ``pure'' direction, the vector must be a unit vector), therefore we can parametrize them with a new independent variable $t$ such that $x(t) = y(t) = \frac{\sqrt{2}}{2} t$. Now taking the directional derivative boils down to a substitution and a 
+simple derivative in $\mathbb{R}$:
+\[
+	\dv{f}{\vb{v}}(x, y) = \dv{f}(t) = \dv{t} \frac{\sqrt{2}}{2} (t^3 + t^2) = \frac{\sqrt{2}}{2} (3t^2 + 2t) = \frac{\sqrt{2}}{2} (3x^2 + 2y).
+\]
+
+
+\begin{figure}[H]
+	\centering
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.31\linewidth]{06/surf}
+	\end{overpic}
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.31\linewidth]{06/g1}
+	\end{overpic}
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.31\linewidth]{06/g4}
+	\end{overpic}
+	\caption{Computing the gradient of the function at ``every'' point of the domain leads to a \emph{vector field}, that visualizes the ``flow'' of the function, from points of lower values to points of higher values. We seek to follow the opposite flow. Indeed, in the figures the negative gradient is plotted, with regions with higher density having points with larger gradients in magnitude.}
+\end{figure}
+
+How does the notion of directional derivative lead us to the gradient being in the direction of steepest increase?
+
+\begin{figure}[H]
+	\centering
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{06/g6ortho1}
+		\put(50,30){\footnotesize $\frac{df}{d\mathbf{v}}(\mathbf{x}) = 0$}
+	\end{overpic}%
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{06/g6ortho2}
+		\put(50,30){\footnotesize $\langle \nabla f, \mathbf{v}\rangle=0$}
+		\put(45,44){\footnotesize $-\nabla f$}
+	\end{overpic}%
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{06/g6}
+	\end{overpic}%
+	\caption{Relation between isocurves, directional derivatives, gradient, and function increase.}
+	\label{fig:chap6:dirder-gradient}
+\end{figure}
+
+The \emph{isocurves} of a function are the the curves (or hyper-surfaces) on which the value of a function does not change. This means that taking the directional derivative of the function, in a point on the curve and along a direction $\vb{v}$ tangent to the curve, this directional derivative will be zero, since locally the function is not changing in that direction (although it will, globally, since this is only a local linear approximation of the behavior of the function). Then, it can be shown that $\langle \gradient f, \vb{v} \rangle = 0$, which means that the gradient is orthogonal to the level curve, and it can be further shown that it is oriented towards level curves of higher values (instead of lower values). This is summarized in \cref{fig:chap6:dirder-gradient}.

@@ -1,0 +1,47 @@
+%!TEX root=../../root.tex
+
+Given a MLP with training set $\mathcal{D} = \{ \mathbf{x}_i, \mathbf{y}_i \}_{i=1}^{n}$
+\begin{equation} 
+    g_{\bm{\Theta}}(\mathbf{x}_i)= (\sigma \circ f_{\bm{\Theta}_n})  \circ (\sigma \circ f_{\bm{\Theta}_{n-1}}) \circ \cdots \circ (\sigma \circ  f_{\bm{\Theta}_1})(\mathbf{x}_i) = \mathbf{y}_i  
+\end{equation}
+and a suitable loss function, such as the Mean Squared Error loss defined as
+\begin{equation} 
+	\ell_{\bm{\Theta}} ( \{ \mathbf{x}_i, \mathbf{y}_i\}) = \frac{1}{n}\sum_{i=1}^n \| \mathbf{y}_i - g_{\bm{\Theta}}(\mathbf{x}_i) \|_2^2,
+\end{equation}
+we have seen that solving for the weights $\bm{\Theta}$ is referred to as \emph{training}.
+
+In general, the loss will be a \emph{non-convex} function of the weights $\bm{\Theta}$. As we have seen, the following \emph{special cases} are convex:
+\begin{itemize}
+	\item One layer, no activation, MSE loss ($\Rightarrow$ linear regression).
+	\item One layer, sigmoid activation, logistic loss ($\Rightarrow$ logistic regression).
+\end{itemize}
+
+
+We have also seen that training is usually performed using gradient descent-like algorithms, that require the computation of gradients $\nabla \ell_{\bm{\Theta}}$. For the basic MSE, this means
+\begin{align}
+    \nabla \ell_{\bm{\Theta}} ( \{ \mathbf{x}_i, \mathbf{y}_i\}) & =
+    \frac{1}{n}  \sum_{i=1}^n \nabla_{\bm{\Theta}} \| \mathbf{y}_i - g_{\bm{\Theta}}(\mathbf{x}_i) \|_2^2  \\
+    & = \frac{1}{n}\sum_{i=1}^n \nabla_{\bm{\Theta}} \| (\mathbf{y}_i -  (\sigma ( f_{\bm{\Theta}_n} (\sigma( f_{\bm{\Theta}_{n-1}}( \cdots (\sigma (  f_{\bm{\Theta}_1}(\mathbf{x}_i))\cdots ))))))) \|_2^2 
+\end{align}
+
+Of course for different loss functions and different models we will have different expressions for the gradient; however, computing the gradients \emph{by hand} would be infeasible.
+
+The derivatives could be approximated numerically by approximating the limit of the ratio, but doing so requires $O(\#\textrm{weights})$ evaluations of $\ell_{\bm{\Theta}}$. The gradient can be computed automatically using the \emph{chain rule}, but this is still sub-optimal. What we want to do is automatize this \emph{computational step} efficiently, and this is done by \emph{automatic differentiation}.
+
+\subsection{Computational graphs} 
+\input{07_MLP/07.3_Training/07.3.1_Computational_graphs/content.tex}
+
+\subsection{Automatic differentiation: forward mode} 
+\input{07_MLP/07.3_Training/07.3.2_Forward/content.tex}
+
+\subsection{Automatic differentiation: reverse mode} 
+\input{07_MLP/07.3_Training/07.3.3_Reverse/content.tex}
+
+\subsection{Automatic differentiation: complexity} 
+\input{07_MLP/07.3_Training/07.3.4_Complexity/content.tex}
+
+\subsection{Backpropagation} 
+\input{07_MLP/07.3_Training/07.3.5_Backprop/content.tex}
+
+\subsection{Observations} 
+\input{07_MLP/07.3_Training/07.3.6_Observations/content.tex}

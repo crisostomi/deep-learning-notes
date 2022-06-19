@@ -1,0 +1,70 @@
+%!TEX root=../../../root.tex
+
+Consider a generic function $f : \mathbb{R}\to\mathbb{R}$: its \emph{computational graph} is a directed acyclic graph representing the computation of $f(x)$ with \emph{intermediate variables}.
+
+\textbf{Example:}
+\begin{equation}
+    f(x) = \log x + \sqrt{\log x}    
+\end{equation}
+
+
+The resulting computational graph would be the following:
+\begin{center}
+	\begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{07/graph1}
+	\put(1,21){\footnotesize $x$}
+	\put(13,19){\footnotesize $\log$}
+	\put(33,21){\footnotesize $y$}
+	\put(44,20){\footnotesize $\sqrt{~}$}
+	\put(63.5,21){\footnotesize $z$}
+	\put(101,15){\footnotesize $f=y+z$}
+	\end{overpic}
+\end{center}
+
+\textbf{Example:}
+\begin{equation}
+    f(x) = \frac{\log (x + \sqrt{x^2+1})}{x^2} - \frac{\log^3 (x + \sqrt{x^2+1})}{\sqrt{x^2+1}} 
+\end{equation}
+
+The resulting computational graph would be the following:
+\begin{center}
+    \begin{overpic}
+    [trim=0cm 0cm 0cm 0cm,clip,width=0.55\linewidth]{07/graph2}
+    \put(0,11){\footnotesize $x$}
+    \put(7.5,10){\tiny $x^2$}
+    \put(16.5,11.5){\footnotesize $y$}
+    \put(19.5,10){\tiny $\sqrt{y \hspace{-0.05cm} + \hspace{-0.05cm} 1}$}
+    \put(32.5,11){\footnotesize $z$}
+    \put(49,11){\footnotesize $r$}
+    \put(55.5,10){\tiny $r^3$}
+    \put(56.5,-3){\footnotesize $s$}
+    \put(65,11){\footnotesize $t$}
+    \put(81,11){\footnotesize $u$}
+    \put(101,8){\footnotesize $f = s-u$}
+    \end{overpic}%
+\end{center}
+
+ The graph is constructed programmaticaly, using elementary functions as building blocks. For example in the previous example the edge $x \to z$ would be defined as:
+\begin{equation}
+	z = {\color{cyan}sqrt}({\color{cyan}sum}({\color{cyan}square}(x), {\color{orange}1})).
+\end{equation}
+
+For \emph{high-dimensional} input/output, the graph may be more complex, since the output vector has several components to be defined, and the components of the input vector can take part in their computation in various intricated ways:
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.45\linewidth]{07/graphhigh}
+		\put(1,25){$\vdots$}
+		\put(17,25){$\vdots$}
+		\put(33.5,25){$\vdots$}
+		\put(48.5,35){$\vdots$}
+		\put(65,35){$\vdots$}
+		\put(65,25){$\vdots$}
+		\put(81,25){$\vdots$}
+		\put(81,11){$\vdots$}
+		\put(97.5,11){$\vdots$}
+		\put(38,15){$\cdots$}
+		\put(70,-0.5){$\cdots$}
+		\end{overpic}
+\end{center}
+
+Keep in mind that the computational graphs can become arbitrarily complex. However, with this formulation the evaluation of $f(x)$ corresponds always to a \emph{forward traversal} of the graph, in which the input variables hold actual values that are used to compute the values for the intermediate variables and eventually the output variables.

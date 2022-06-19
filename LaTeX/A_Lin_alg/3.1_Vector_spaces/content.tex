@@ -1,0 +1,101 @@
+%!TEX root=../../root.tex
+
+The motivation for the definition of a vector space comes from the classical properties of addition and scalar multiplication.
+A \emph{vector space} $V$ over a field $F$ is a set equipped with two operations, $+: V \to V$ and $\cdot: F \times V \to V$, often referred to as \emph{addition} and \emph{scalar multiplication} respectively, that satisfy the following properties:
+
+\begin{itemize}
+\item \textbf{commutativity}: $u+v = v+u$ for all $u,v\in V$;
+
+\item \textbf{associativity}: $(u+v)+w = u+(v+w)$ and $(ab)v=a(bv)$ for all $u,v,w\in V$ and all $a,b\in\mathbb{R}$; 
+\item the set is closed wrt to the two operations, so $u+v\in V$ and $av\in V$: ``what happens in Vegas, stays in Vegas'';
+
+
+\item \textbf{additive identity}: there exists an element $0\in V$ such that $v+0=v$ for all $v\in V$
+
+\item \textbf{additive inverse}: for every $v\in V$, there exists $w\in V$ such that $v+w=0$
+
+\item \textbf{multiplicative identity}: $1v = v$ for all $v\in V$
+
+\item \textbf{distributive properties}: $a(u+v)=au+av$ and $(a+b)v=av+bv$ for all $a,b\in\mathbb{R}$ and all $u,v\in V$
+\end{itemize}
+
+$\mathbb{R}^n$ is defined as the set of all $n$-long sequences of numbers in $\mathbb{R}$:
+
+\[
+\mathbb{R}^n = \{ (x_1,\dots,x_n) : x_j \in \mathbb{R} ~\mathrm{for}~ j=1,2,\dots,n\}
+\]
+
+{
+\medskip
+Addition and scalar multiplication are defined as expected:
+%
+\begin{align*}
+(x_1,x_2,\dots,x_n) + (y_1,y_2,\dots,y_n) &= (x_1+y_1,x_2+y_2,\dots,x_n+y_n)\\
+\lambda (x_1, x_2,\dots,x_n) &= (\lambda x_1, \lambda x_2, \dots, \lambda x_n)
+\end{align*}
+}
+
+While the additive identity can be defined as:
+\[ 0 = (0, \dots , 0) \]
+With these definitions, $\mathbb{R}^n$ is a vector space, usually defined over the scalar field $\mathbb{R}$.
+
+Consider the set of all functions $f: [0,1] \to \mathbb{R}$ with the standard definitions for sum and scalar product:
+%
+\begin{align*}
+(f+g)(x) &= f(x) + g(x)\\
+(\lambda f)(x) &= \lambda f(x)
+\end{align*}
+%
+for all $x\in[0,1]$ and $\lambda \in\mathbb{R}$, with additive identity and inverse defined as:
+%
+\begin{align*}
+0(x) &= 0\\
+(-f)(x) &= -f(x)
+\end{align*}
+%
+for all $x\in[0,1]$. The above forms a vector space. In fact, \emph{any} set of functions $f: S\to\mathbb{R}$ with $S\neq\emptyset$ (Q: why?) and the definitions above forms a vector space.
+
+Elements of a vector space (called \emph{vectors}) are not necessarily lists. A vector space is an \emph{abstract} entity whose elements might be lists, functions, or weird objects. Surfaces do not form a vector space, as the sum of two points over a surface is not defined. Surfaces can be studied using \emph{differential geometry}, which is a mathematical discipline that uses the techniques of differential calculus, integral calculus, linear algebra and multilinear algebra to study problems in geometry; we'll need it for studying the \emph{manifold hypothesis} and \emph{geometric deep learning}.
+
+\begin{figure}[H]
+\begin{center}
+{
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.4\linewidth]{03/bunny.png}
+		\end{overpic}
+}%
+{
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.4\linewidth]{03/bunnyfun.png}
+		\end{overpic}
+}
+\end{center}
+\caption{An example of surface.}
+\end{figure}
+{
+\medskip
+
+
+\medskip
+We can still use linear algebra to manipulate \emph{functions on surfaces}.
+}
+
+A subset $U\subset V$ is a \emph{subspace} of $V$ if it is a vector space (using the same operations defined for $V$). In particular:
+
+\begin{itemize}
+	\item $0\in U$
+	\item $u,v\in U$ implies $u+v\in U$
+	\item $u\in U$ implies $\alpha u \in U$ for any $\alpha\in\mathbb{R}$
+\end{itemize}
+
+
+\textbf{Examples:}
+\medskip
+
+\begin{itemize}
+	\item $\{ (x_1, x_2, 0) : x_1, x_2 \in \mathbb{R}\}$ is a subspace of $\mathbb{R}^3$
+	\item The set of \emph{piecewise-linear functions} on a graph $G=(V,E)$ is a subspace of all functions $f:V\to\mathbb{R}$
+\end{itemize}
+
+\subsection{Basis} 
+\input{A_Lin_alg/3.1_Vector_spaces/3.1.1_Basis/content.tex}

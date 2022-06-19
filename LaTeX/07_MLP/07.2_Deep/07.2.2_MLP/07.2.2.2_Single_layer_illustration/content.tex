@@ -1,0 +1,110 @@
+%!TEX root=../../../../root.tex
+
+
+\begin{minipage}{\textwidth}
+    \vspace{2em}
+\end{minipage}
+
+\begin{minipage}{.2\textwidth}
+    \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{07/layer1}
+        \put(4,16){$\vdots$}
+        \put(4,49){$\vdots$}
+        \put(60,42){$\vdots$}
+        %
+        \put(-10,85){$x_1$}
+        \put(-10,65){$x_2$}
+        \put(-10,3){$x_n$}
+        %
+        \put(31,78){\color{blue}$w_{11}$}
+        \put(31,60){\color{blue}$w_{12}$}
+        \put(31,26){\color{blue}$w_{1n}$}
+    \end{overpic}
+    
+    \vspace{2em}
+
+    \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{07/layer2}
+        \put(4,16){$\vdots$}
+        \put(4,49){$\vdots$}
+        \put(60,42){$\vdots$}
+        %
+        \put(-10,85){$x_1$}
+        \put(-10,65){$x_2$}
+        \put(-10,3){$x_n$}
+        %
+        \put(31,60){\color{blue}$w_{m1}$}
+        \put(31,34){\color{blue}$w_{m2}$}
+        \put(31,10){\color{blue}$w_{mn}$}
+    \end{overpic}%
+    \vspace{2em}
+\end{minipage}% This must go next to `\end{minipage}`
+\begin{minipage}{.8\textwidth}
+    \begin{equation}
+        \sigma(\mathbf{Wx}) = \sigma \circ 
+        \begin{pmatrix} 
+            \color{blue} w_{11}  &  \color{blue}w_{12}  & \cdots & \color{blue}w_{1n} \\
+             w_{21} 				 & w_{22} 				& \cdots & w_{2n}			   \\
+            \vdots 				 & \cdots 				& \ddots & \vdots 			   \\
+             w_{m1}             & w_{m2}	            &\cdots  & w_{mn}  
+        \end{pmatrix} 
+        \begin{pmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{pmatrix}
+        = \sigma \circ 
+        \begin{pmatrix}
+            y_1\\
+            y_2\\
+            \vdots\\
+            y_m
+        \end{pmatrix}
+    \end{equation}
+    \vspace{4em}
+    \begin{equation}
+        \sigma(\mathbf{Wx}) = \sigma \circ 
+        \begin{pmatrix} 
+            w_{11}  &              w_{12}              & \cdots & w_{1n} \\
+             w_{21} 				 & w_{22} 				& \cdots & w_{2n}			   \\
+            \vdots 				 & \cdots 				& \ddots & \vdots 			   \\
+            \color{blue} w_{m1}  & \color{blue}w_{m2}	&\cdots  & \color{blue}w_{mn}  
+        \end{pmatrix} 
+        \begin{pmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{pmatrix}
+        = \sigma \circ 
+        \begin{pmatrix}
+            y_1\\
+            y_2\\
+            \vdots\\
+            y_m
+        \end{pmatrix}
+    \end{equation}
+    \vspace{2em}
+\end{minipage}
+
+To visualize the computation we usually take the hidden input representation $\vec{x}$ (possibly the input to the entire network), draw the corresponding $n$ nodes, then do the same for the output, drawing $m$ nodes.
+Now, for every output node, we see which input nodes intervened to give raise to its value and draw the resulting edge. Each edge has a weight, and this is the corresponding element in the matrix.
+
+\begin{center}
+	\begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.4\linewidth]{07/layer3}
+	\put(4,16){$\vdots$}
+	\put(4,49){$\vdots$}
+	\put(60,42){$\vdots$}
+	%
+	\put(-10,85){$x_1$}
+	\put(-10,65){$x_2$}
+	\put(-10,3){$x_n$}
+	%
+	\put(60,71){$\sigma$}
+	\end{overpic}%
+
+\end{center}
+
+For this model, the resulting network will be fully connected, but this will not be always the case.

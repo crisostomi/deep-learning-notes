@@ -1,0 +1,79 @@
+%!TEX root = ../root.tex
+
+\section{Entropy}
+
+\paragraph{Intuition}
+
+In information theory, the \emph{entropy} of a random variable is the average level of ``information'', or dually ``uncertainty'', that is inherent in the variable's possible outcomes.
+
+Let's look at one such outcome, let's call it the event $E$, and say that it will occur with probability $p(E)$.
+
+The intuition is that if the event $E$ is very likely to happen, then knowing that it will happen does not bring any interesting information. On the contrary, what is truly informative is knowing that something that happens very infrequently will indeed happen.
+
+Therefore, the \emph{information content} (or \emph{surprisal}) carried by knowing that the event $E$ will happen can be quantified as a function that decreases with $p(E)$. In particular, this function is defined as:
+\begin{equation}
+	I(E) \triangleq -\log p(E) = \log \frac{1}{p(E)}.
+\end{equation}
+
+A random variable has a probability distribution defined over all the events that it encodes. Then, we can compute the average information inherent in the variable as the weighted average of the information carried by each one of its events, weighted by the probability that it will actually happen. 
+
+A random variable in which all the outcomes are equally likely has high entropy, since there is maximum uncertainty about its outcome. A random variable in which there are certain outcomes that are much more likely than others has low entropy, since there is less uncertainty about its outcome.
+
+A random variable that has \emph{more} outcomes than another has \emph{higher} entropy, since there is more uncertainty about its outcome.
+
+\paragraph{Definition}
+
+Let $X$ be a random variable, with possible values $\{ x_1, \dots, x_n \}$. Let $P(X)$ be the probability mass function defining a probability distribution over all the possible values of $X$.
+
+Then, we call \emph{entropy} the average information represented in the distribution:
+\begin{equation}
+	H(X) \triangleq - \sum_{i=1}^{n} p(x_i) \log p(x_i),
+\end{equation}
+where $p(x_i) \equiv P(X = x_i)$.
+
+\section{Kullback-Leibler divergence}
+
+\paragraph{Intuition}
+
+Let's consider two distributions of probability $p$ and $q$. Usually, $p$ represents the data, while $q$ a model, or in general an approximation of $p$, and we want to know how good of an approximation this is.
+
+Then the Kullback-Leibler divergence is interpreted as the average loss of information content that we have when representing samples of $p$ (the data) using an \emph{optimal code} (something that does not introduce additional uncertainty beside the one intrinsic to the distribution) for $q$ (the model) instead of an optimal code for $p$.
+
+\paragraph{Definition}
+Let $p$ and $q$ be two probability distributions defined over the same space $X$. 
+
+Then we call Kullback-Leibler divergence the measure
+\begin{equation}
+    KL (p \| q) \triangleq \sum_{x \in X} p(x) \log \left( \frac{p(x)}{q(x)} \right)
+\end{equation}
+which is equivalent to
+\begin{equation}
+    KL (p \| q) = -\sum_{x \in X} p(x) \log \left( \frac{q(x)}{p(x)} \right).
+\end{equation}
+
+\paragraph{Properties}
+
+The KL-divergence:
+\begin{itemize}
+    \item is \emph{not} symmetric.
+    \item is \emph{not} a distance, since it is not symmetric.
+    \item is always non-negative.
+    \item can be expressed as an expectation.
+    \begin{equation}
+        \begin{aligned}
+            KL (P \| Q) & = \sum_{x \in X} p(x) \log \left( \frac{p(x)}{q(x)} \right) \\
+            & = \mathbb{E}_{x \sim p(x)} \log \left( \frac{p(x)}{q(x)} \right).
+        \end{aligned}
+    \end{equation}
+    \item measures the dissimilarity of two distributions in terms of their entropy.
+    \begin{equation}\label{eq:KL-divergence}
+        KL(p \| q) \approx H(q) - H(p)
+    \end{equation} 
+    
+    In fact, Substituting the definition of entropy in \cref{eq:KL-divergence} we go back to the definition.
+    \begin{align}
+        KL(p \| q) &\approx - \sum_{x}q(x)\log \ q(x) + \sum_{x}p(x)\log \ p(x) \\
+        KL(p \| q) &= - \sum_{x}p(x)\log \ q(x) + \sum_{x}p(x)\log \ p(x) \\
+        KL(p \| q) &= \sum_{x}p(x)\log \frac{p(x)}{q(x)}
+    \end{align}
+\end{itemize}

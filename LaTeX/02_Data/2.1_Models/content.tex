@@ -1,0 +1,31 @@
+%!TEX root=../../root.tex
+
+Learning is about \emph{describing} data, or more specifically, describing the \emph{process}, or \emph{model}, that yields a given output from a given input.
+
+\begin{figure}[H]
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{02/funcs}
+		\put(9,-6.5){$y = ax+b$}
+		\put(39,-6.5){$y = ax^2 + bx+c$}
+		\put(70,-6.5){$y = ax^3 +bx^2 + cx +d$}
+	\end{overpic}
+\end{figure}
+\bigskip\bigskip\medskip
+
+Our model might use \emph{prior knowledge} on the data. For example, in the third plot, we might know a priori that the data actually comes from a periodic process $y = a\sin(x) + bx +c$.
+In general, one should look at the world, identify what knowledge he has about it, and use this knowledge to construct his model.
+Some forms of prior knowledge are for example
+\begin{itemize}
+	\item \emph{data distribution}, e.g. we know that the data come from an oscillatory process, thus they must follow a periodic distribution;
+	\item \emph{energy function}, e.g. we know that the data come from an energy-minimizing process;
+	\item \emph{constraints}, e.g. we know that all the data come from a fixed camera, of which we know all the intrinsic parameters;  
+	\item \emph{invariances}, e.g. we work on pictures of snowflakes, which are rotationally symmetric;
+	\item \emph{input-output examples} (data prior).
+\end{itemize}
+All these encode, to different extents, some expected behaviour.
+
+\subsection{Reliability of the prior} 
+\input{02_Data/2.1_Models/2.1.1_Reliability_prior/content.tex}
+
+\subsection{Explaining the data} 
+\input{02_Data/2.1_Models/2.1.2_Explaining_data/content.tex}

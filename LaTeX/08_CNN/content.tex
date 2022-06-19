@@ -1,0 +1,79 @@
+%!TEX root=../root.tex
+
+In the previous chapter we have presented the Multi-Layer Perceptron, what most people refer to when speaking about a Neural Network in general. These are \emph{deep} networks, since they are made up of several layers, and are \emph{feed-forward} networks, since the data progresses through the network from the input layer to the output layer in a straight-forward way, undergoing transformations at each layer in the process.
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.95\linewidth]{08/dnn1_.pdf}
+		\put(1.25,30.25){\footnotesize $f_1^\mathrm{in}$}
+		\put(1.25,22.5){\footnotesize $f_2^\mathrm{in}$}
+		\put(1.25,5.5){\footnotesize $f_n^\mathrm{in}$}
+		\put(26.5,33){\footnotesize $g_1^{(1)}$}
+		\put(26.5,25.25){\footnotesize $g_2^{(1)}$}
+		\put(26.5,8.25){\footnotesize $g_{m_1}^{(1)}$}
+		\put(47.75,33){\footnotesize $g_1^{(2)}$}
+		\put(47.75,25.25){\footnotesize $g_2^{(2)}$}
+		\put(47.75,8.25){\footnotesize $g_{m_2}^{(2)}$}
+		\put(69.25,33){\footnotesize $g_1^{(3)}$}
+		\put(69.25,25.25){\footnotesize $g_2^{(3)}$}
+		\put(69.25,8.25){\footnotesize $g_{m_3}^{(3)}$}
+		\put(76.25,33){\footnotesize $g_1^{(L-1)}$}
+		\put(76.25,25.25){\footnotesize $g_2^{(L-1)}$}
+		\put(76.25,8.25){\footnotesize $g_{m_{L-1}}^{(L-1)}$}
+		\put(93.5,30.25){\footnotesize $g_1^\mathrm{out}$}
+		\put(93.5,22.5){\footnotesize $g_2^\mathrm{out}$}
+		\put(93.5,5.5){\footnotesize $g_m^\mathrm{out}$}	
+		\put(15,3){\footnotesize $\mathbf{W}^{(1)}$}			
+		\put(36,3){\footnotesize $\mathbf{W}^{(2)}$}	
+		\put(57,3){\footnotesize $\mathbf{W}^{(3)}$}	
+		\put(82,3){\footnotesize $\mathbf{W}^{(L)}$}					
+	\end{overpic}
+    \caption{Deep feed-forward neural network consisting of $L$ layers.}
+\end{figure}
+
+Let $\vb{g}^{(k)} = \mqty(g_1^{(k)} & \dots & g_{m_k}^{(k)})^{\top}$ be the vector output of the $k$-th layer of the network. The layer $k$ performs a transformation on the output of the previous layer to compute
+\begin{equation}
+    \vb{g}^{(k)} = \sigma(\vb{W}^{(k)} \vb{g}^{(k-1)}) 
+\end{equation}
+where the $\ell$ component is
+\begin{equation}
+    g^{(k)}_\ell = \sigma\left( \displaystyle\sum_{\ell'=1}^{m_{k-1}} g^{(k-1)}_{\ell'}  w^{(k)}_{\ell,\ell'} \right) \hspace{2.5mm} 
+    \begin{array}{l}
+        \ell = 1, \hdots, m_k \\
+     \ell' = 1, \hdots, m_{k-1} \\
+    \end{array}
+\end{equation}
+where $\sigma(x)$ is the \emph{activation} function, \textit{e.g.} the \emph{Rectified Linear Unit} (ReLU):
+\[
+    \sigma(x) = \max \{ x, 0\}. 
+\]
+
+All these layers have trainable parameters, that get adjusted via an optimization algorithm like \emph{Stochastic Gradient Descent} to minimize a \emph{loss function}. These parameters are the weights
+\[
+    \vb{W}^{(1)}, \hdots, \vb{W}^{(L)}
+\]
+including the biases.
+
+With this architecture, the network output is 
+\begin{equation}
+    \mathbf{g}^{\mathrm{out}} = \sigma\left( \vb{W}^{(L)} \left( \hdots \left( \mathbf{W}^{(2)} \sigma\left( \mathbf{W}^{(1)} \mathbf{f}^{\mathrm{in}}  \right) \right) \hdots \right) \right).
+\end{equation}
+
+In principle, this architecture is as general as it gets: deep feed-forward neural networks are \textit{provably} \emph{universal}, meaning that provided enough units, they can approximate any function with any desired accuracy. However, this comes with a price:
+\begin{itemize}
+    \item We can make them \emph{arbitrarily complex};
+    
+    \item The number of \emph{parameters} increases very rapidly and can get huge;
+    
+    \item The two points above combined make it so these network can become very difficult to \emph{optimize};
+    
+    \item Even then, with this architecture is very difficult to achieve \emph{generalization}, since often they become \textit{too powerful} and manage to represent perfectly the data, overfitting and losing generalization power.
+\end{itemize}
+
+\section{Need for Priors} 
+\input{08_CNN/08.1_Priors/content.tex}
+\section{Convolution} 
+\input{08_CNN/08.2_Convolution/content.tex}
+\section{Convolutional Neural Networks} 
+\input{08_CNN/08.3_CNN/content.tex}

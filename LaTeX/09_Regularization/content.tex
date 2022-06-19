@@ -1,0 +1,49 @@
+%!TEX root=../root.tex
+
+In this chapter we are going to see a few ways for \emph{regularizing}
+the predictions produced by our networks. 
+
+A central problem in machine learning is how to make an algorithm that will perform well not just on the training data, but also on new inputs. Many strategies used in machine learning are explicitly designed to reduce the \emph{generalization} error (i.e. test error), possibly at the expense of increased training error. These strategies are known collectively as \emph{regularization}.
+
+Regularization does not have a strict definition, since these strategies are very diverse in nature as we will see. A commonly accepted and loose definition for regularization is the following:
+\begin{center}
+    ``Any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error''.
+\end{center}
+
+Most of the research in Deep Learning is, in one way or another, doing regularization or providing new ways of regularizing deep networks.
+
+\paragraph{Overfitting}
+
+We have seen that overfitting is one of the main causes of a model losing generalization power, and that overfitting often happens with limited training data:
+\begin{equation}
+    \# \text{parameters } \gg \# \text{training examples}.
+\end{equation}
+
+Since usually we don't have enough data to be able to increase the number of training examples, one of the objectives of \emph{regularization} is to reduce overfitting, in order to attain better \emph{generalization}.
+
+\paragraph{General idea}
+
+One of the reasons of overfitting is the excessive \emph{representational power} of the model wrt to the training data: the model is ``too powerful'' and is able to perfectly represent the training data, making implicit assumptions about the data distribution that are often false in the general setting, and so will lead to poor generalization on unseen data that does not follow these assumptions. 
+
+Therefore, many regularization techniques are aimed at reducing the number of \emph{free parameters} (different from the number of weights) of a model, to limit its representational power. This is done by constraining the parameters of the model to behave in a specified way, limiting their freedom. This limitation may take several forms.
+
+\begin{itemize}
+    \item \textbf{Eliminate} network weights.\\
+    This can be done by taking a trained network, looking at it's parameters and estimating the network sensitivity wrt to each individual weight, i.e. how much the output changes in response to a change in that weight. Parameters with little to no influence in the prediction can be eliminated.
+    
+    \item Weight \textbf{sharing} (i.e. \# weights $<$ \# connections). \\
+    Doing weight sharing means that we have less trainable weights. This is present in the convolutional layers, where each location of the current feature map is computed from the earlier feature map reusing the same kernel with the same weights.
+
+    \item Explicit \textbf{penalties}. For instance we have seen Tikhonov regularization when we first encountered overfitting.
+
+    \item \textbf{Implicit} regularization.
+\end{itemize}
+
+\section{Explicit ways of regularization} 
+\input{09_Regularization/09.1_Explicit_ways/content.tex}
+\section{Early stopping} 
+\input{09_Regularization/09.2_Early_stopping/content.tex}
+\section{Batch normalization} 
+\input{09_Regularization/09.3_Batchnorm/content.tex}
+\section{Dropout} 
+\input{09_Regularization/09.4_Dropout/content.tex}

@@ -1,0 +1,123 @@
+%!TEX root=../../root.tex
+
+The definition of matrix product gives rise to some alternative viewpoints that are often useful for practical manipulation of matrices.
+
+\paragraph{Transpose and inverse}
+
+\begin{defn}[Symmetric matrix]
+	A matrix $A$ is symmetric if $A = A^\top$.
+\end{defn}
+
+If the matrix $A$ is a product $A = BC$, the transpose applies as follows
+
+\begin{equation}
+	(BC)^\top = C^\top B^\top
+\end{equation}
+
+and the same holds for the inverse
+
+\begin{equation}
+	(BC)^{-1} = C^{-1} B^{-1}
+\end{equation}
+
+\begin{defn}[Orthogonal Matrix]
+	A matrix $A$ is orthogonal if its columns and rows are orthogonal unit vectors (orthonormal vectors). Equivalently, a matrix $A$ is orthogonal if
+	\begin{equation}
+		A^{-1} = A^\top
+	\end{equation}
+\end{defn}
+Thus $A^\top A = I$ whenever $A$ is orthogonal.
+
+\begin{claim}\label{cl:orthogonal}
+	If $A$ is orthogonal then $A^\top A = I \iff A A^\top = I$.
+\end{claim}
+
+\begin{proof}
+	\begin{align}
+		A^\top A &= I \tag{by multiplying both sides for $A$} \\ 
+		A A^\top A &= A I 
+	\end{align}
+	And this implies that 
+	\begin{align}
+		A A^\top = I
+	\end{align}
+\end{proof}
+
+\paragraph{Products}
+
+The matrix-vector product is as follows
+
+\begin{equation}
+	\mathbf{X}\mathbf{y} = 
+	\left(
+		\begin{smallmatrix}
+			|& |& 							    \\
+			\mathbf{x}_1 & \mathbf{x}_2 & \dots \\
+			|& |& 
+		\end{smallmatrix} 
+	\right)
+	\left(
+		\begin{smallmatrix}
+			&y_1 \\ &y_2 \\ &\vdots 
+		\end{smallmatrix}
+	\right) 
+	= 
+	y_1 \left(
+		\begin{smallmatrix}
+			|& \\
+			\mathbf{x_1}& \\
+			|&
+		\end{smallmatrix}
+		\right)
+	+ y_2 \left(
+		\begin{smallmatrix}
+			|& \\
+			\mathbf{x_2}& \\
+			|&
+		\end{smallmatrix}
+		\right)
+	+ \dots 
+\end{equation}
+
+while the vector-matrix product is just a transposed version of the above
+
+\begin{equation}
+	\mathbf{z}^{\top}\mathbf{A} = (\mathbf{A}^\top \mathbf{z})^\top 
+\end{equation}
+
+Matrix-matrix product:
+
+\begin{align}
+	\mathbf{X}\mathbf{Y} &=
+	 	\left( 
+		\begin{smallmatrix}
+			-& \mathbf{x}_1^\top &-  \\
+			-& \mathbf{x}_2^\top &-  \\
+			 & \vdots & 			 \\
+		\end{smallmatrix} 
+		\right)
+		\left(
+			\begin{smallmatrix}
+				|& |& 							    \\
+				\mathbf{y}_1 & \mathbf{y}_2 & \dots \\
+				|& |& 
+			\end{smallmatrix} 
+		\right) 
+		= 
+		\left(
+			\begin{smallmatrix}
+				|& |& 							    \\
+				\mathbf{Xy}_1 & \mathbf{Xy}_2 & \dots \\
+				|& |& 
+			\end{smallmatrix} 
+		\right)
+		\\ 
+		&=
+		\left(
+			\begin{smallmatrix}
+				-& \mathbf{x}_1^\top \mathbf{Y} &-  \\
+				-& \mathbf{x}_2^\top  \mathbf{Y}&-   \\
+				 & \vdots & 			 \\
+			\end{smallmatrix} 
+		\right)
+\end{align}	

@@ -1,0 +1,160 @@
+\contentsline {chapter}{\numberline {1}Data}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Models for describing the data}{7}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Reliability of the prior}{7}{subsection.1.1.1}%
+\contentsline {subsubsection}{Black hole imaging}{7}{section*.7}%
+\contentsline {subsubsection}{Fairness}{8}{section*.9}%
+\contentsline {subsection}{\numberline {1.1.2}Explaining the data}{8}{subsection.1.1.2}%
+\contentsline {paragraph}{Choosing a representation}{9}{section*.10}%
+\contentsline {section}{\numberline {1.2}The curse of dimensionality}{10}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Decrease the dimensions}{11}{subsection.1.2.1}%
+\contentsline {subsubsection}{Features}{11}{section*.16}%
+\contentsline {paragraph}{Intrinsic invariances}{12}{section*.17}%
+\contentsline {paragraph}{Latent features}{13}{section*.19}%
+\contentsline {paragraph}{Dimensionality}{13}{section*.21}%
+\contentsline {paragraph}{Task-driven features}{14}{section*.25}%
+\contentsline {chapter}{\numberline {2}Linear regression, convexity and gradients}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Linear Regression}{16}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Convexity}{18}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Gradients}{20}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Nonlinear models, overfitting and regularization}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Nonlinear models}{25}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Polynomial fitting}{26}{section.3.2}%
+\contentsline {paragraph}{$k$-fold cross-validation}{28}{section*.41}%
+\contentsline {section}{\numberline {3.3}Regularization}{28}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Classification}{30}{section.3.4}%
+\contentsline {paragraph}{Logistic regression}{31}{section*.43}%
+\contentsline {chapter}{\numberline {4}Stochastic gradient descent}{34}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{34}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Gradient Properties}{36}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Orthogonality and steepest ascent}{36}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Differentiability}{37}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Stationary points}{38}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Learning Rate}{38}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Decay}{39}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Momentum}{40}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Gradient Descent for Deep Learning: Stochastic Gradient Descent}{42}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Multi-layer perceptron and back-propagation}{46}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{46}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Deep networks}{47}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Deep composition}{47}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}MLP}{48}{subsection.5.2.2}%
+\contentsline {subsubsection}{Hidden units}{48}{section*.52}%
+\contentsline {subsubsection}{Single layer illustration}{48}{section*.53}%
+\contentsline {subsubsection}{Output layer}{49}{section*.54}%
+\contentsline {subsubsection}{Deep ReLU networks}{50}{section*.55}%
+\contentsline {subsection}{\numberline {5.2.3}Universality}{51}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Training}{51}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Computational graphs}{52}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Automatic differentiation: forward mode}{53}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Automatic differentiation: reverse mode}{54}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Automatic differentiation: complexity}{55}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Backpropagation}{58}{subsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.3.6}Observations}{58}{subsection.5.3.6}%
+\contentsline {chapter}{\numberline {6}Convolutional neural networks}{60}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Need for Priors}{61}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Self-similarity}{62}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Translation invariance}{62}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Other invariances}{63}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Hierarchy and compositionality}{64}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Convolution}{65}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Properties}{66}{subsection.6.2.1}%
+\contentsline {subsubsection}{Commutativity}{66}{section*.67}%
+\contentsline {subsubsection}{Shift-equivariance}{66}{section*.68}%
+\contentsline {subsubsection}{Linearity}{67}{section*.70}%
+\contentsline {subsection}{\numberline {6.2.2}Discrete Convolution}{68}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Convolutional Neural Networks}{70}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Regularization}{74}{chapter.7}%
+\contentsline {paragraph}{Overfitting}{74}{section*.80}%
+\contentsline {paragraph}{General idea}{74}{section*.81}%
+\contentsline {section}{\numberline {7.1}Explicit ways of regularization}{75}{section.7.1}%
+\contentsline {paragraph}{Sparsity}{76}{section*.84}%
+\contentsline {section}{\numberline {7.2}Early stopping}{77}{section.7.2}%
+\contentsline {paragraph}{U-shaped curve}{77}{section*.86}%
+\contentsline {paragraph}{Overfitting}{78}{section*.88}%
+\contentsline {paragraph}{Double descent (Capacity-wise double U-shape)}{81}{figure.caption.94}%
+\contentsline {paragraph}{Epoch-wise double U-shape}{82}{section*.96}%
+\contentsline {paragraph}{How early stopping acts as a regularizer}{83}{section*.98}%
+\contentsline {section}{\numberline {7.3}Batch normalization}{83}{section.7.3}%
+\contentsline {paragraph}{The transformation}{84}{section*.99}%
+\contentsline {paragraph}{Learnable parameters: Scale and shift}{84}{section*.100}%
+\contentsline {paragraph}{Using mini-batches}{84}{section*.101}%
+\contentsline {paragraph}{Properties}{85}{section*.103}%
+\contentsline {paragraph}{Variants}{85}{section*.104}%
+\contentsline {section}{\numberline {7.4}Dropout}{86}{section.7.4}%
+\contentsline {paragraph}{Implicit ensembles}{87}{section*.107}%
+\contentsline {subparagraph}{Training}{87}{section*.108}%
+\contentsline {subparagraph}{Testing}{88}{section*.110}%
+\contentsline {paragraph}{Properties as a regularizer}{88}{section*.112}%
+\contentsline {subparagraph}{Dropout as an explicit penalty}{89}{section*.114}%
+\contentsline {chapter}{\numberline {8}Deep generative models}{90}{chapter.8}%
+\contentsline {paragraph}{Dimensionality reduction}{90}{section*.115}%
+\contentsline {section}{\numberline {8.1}Principal component analysis}{90}{section.8.1}%
+\contentsline {paragraph}{PCA as a generative model}{94}{section*.119}%
+\contentsline {section}{\numberline {8.2}Autoencoders}{95}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Manifolds}{96}{subsection.8.2.1}%
+\contentsline {paragraph}{Manifold hypothesis}{96}{section*.125}%
+\contentsline {paragraph}{Manifolds}{96}{section*.126}%
+\contentsline {paragraph}{Differential geometry}{97}{section*.127}%
+\contentsline {paragraph}{Decoders as a chart}{98}{section*.131}%
+\contentsline {paragraph}{Limitations of autoencoders}{99}{section*.132}%
+\contentsline {section}{\numberline {8.3}Variational Autoencoders (VAE)}{99}{section.8.3}%
+\contentsline {paragraph}{VAE: Training}{103}{section*.141}%
+\contentsline {paragraph}{VAE: Testing}{105}{section*.144}%
+\contentsline {paragraph}{VAE interpolation}{107}{section*.146}%
+\contentsline {chapter}{\numberline {9}Geometric deep learning}{109}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Introduction}{109}{section.9.1}%
+\contentsline {paragraph}{Geometric deep learning vs manifold learning}{109}{section*.150}%
+\contentsline {section}{\numberline {9.2}First examples}{111}{section.9.2}%
+\contentsline {paragraph}{Multi-view CNN}{111}{section*.154}%
+\contentsline {paragraph}{$3$D ShapeNets}{112}{section*.157}%
+\contentsline {section}{\numberline {9.3}Challenges}{114}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Generalize Convolution}{116}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}Global parametrization}{116}{subsection.9.4.1}%
+\contentsline {subsection}{\numberline {9.4.2}Spectral convolution}{118}{subsection.9.4.2}%
+\contentsline {paragraph}{Convolution in the Fourier domain}{118}{section*.168}%
+\contentsline {paragraph}{The connection with the Laplacian}{118}{section*.169}%
+\contentsline {paragraph}{Discrete spectral convolution}{120}{section*.172}%
+\contentsline {paragraph}{Limitations of the spectral convolution}{121}{section*.173}%
+\contentsline {subparagraph}{The spectral convolution is not shift invariant}{122}{section*.174}%
+\contentsline {subparagraph}{Spectral convolution is domain dependent}{122}{section*.175}%
+\contentsline {subparagraph}{Spectral convolution is not local}{124}{section*.179}%
+\contentsline {paragraph}{Variants of the spectral convolution}{124}{section*.180}%
+\contentsline {subparagraph}{Spectral CNN with smooth spectral filters}{124}{section*.181}%
+\contentsline {subsection}{\numberline {9.4.3}Spatial convolution}{126}{subsection.9.4.3}%
+\contentsline {chapter}{\numberline {10}Adversarial training}{129}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Generative Adversarial Networks}{129}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}Introduction}{130}{subsection.10.1.1}%
+\contentsline {subsection}{\numberline {10.1.2}Formalization}{131}{subsection.10.1.2}%
+\contentsline {section}{\numberline {10.2}Adversarial attacks}{133}{section.10.2}%
+\contentsline {paragraph}{Examples}{134}{section*.188}%
+\contentsline {paragraph}{Perception}{134}{section*.191}%
+\contentsline {paragraph}{Types of attacks}{135}{section*.193}%
+\contentsline {subparagraph}{Targeted attacks}{136}{section*.194}%
+\contentsline {subparagraph}{Untargeted attacks}{137}{section*.196}%
+\contentsline {paragraph}{Vulnerability}{138}{section*.197}%
+\contentsline {paragraph}{Universal perturbations}{139}{section*.199}%
+\contentsline {paragraph}{Closing remarks}{140}{section*.201}%
+\contentsline {chapter}{\numberline {A}Linear Algebra}{141}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Vector spaces}{141}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Basis}{143}{subsection.A.1.1}%
+\contentsline {section}{\numberline {A.2}Linear maps}{144}{section.A.2}%
+\contentsline {subsection}{\numberline {A.2.1}Matrices}{145}{subsection.A.2.1}%
+\contentsline {section}{\numberline {A.3}Matrix meta-mechanics}{147}{section.A.3}%
+\contentsline {paragraph}{Transpose and inverse}{147}{thmt@dummyctr.dummy.11}%
+\contentsline {paragraph}{Products}{147}{section*.206}%
+\contentsline {section}{\numberline {A.4}Other properties}{148}{section.A.4}%
+\contentsline {chapter}{\numberline {B}Information Theory}{149}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Entropy}{149}{section.B.1}%
+\contentsline {paragraph}{Intuition}{149}{section*.208}%
+\contentsline {paragraph}{Definition}{149}{section*.209}%
+\contentsline {section}{\numberline {B.2}Kullback-Leibler divergence}{150}{section.B.2}%
+\contentsline {paragraph}{Intuition}{150}{section*.210}%
+\contentsline {paragraph}{Definition}{150}{section*.211}%
+\contentsline {paragraph}{Properties}{150}{section*.212}%
+\contentsline {chapter}{\numberline {C}Fourier Analysis}{151}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Signals}{151}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Fourier series}{151}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Fourier transform}{153}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Properties}{155}{section.C.4}%
+\contentsline {chapter}{\numberline {D}Spectral Graph Theory}{156}{appendix.D}%
+\contentsline {paragraph}{Real-valued functions}{156}{section*.213}%

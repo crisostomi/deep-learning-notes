@@ -1,0 +1,97 @@
+%!TEX root=../../../root.tex
+
+A \emph{basis} of $V$ is a collection of vectors in $V$ that is \emph{linearly independent} and \emph{spans} $V$
+
+\medskip
+\begin{itemize}
+\item $\mathrm{span}(v_1,\dots,v_n) = \{ a_1 v_1 + \cdots + a_n v_n : a_1,\dots,a_n \in\mathbb{R}\}$
+\medskip
+
+\item $v_1,\dots,v_n\in V$ are \emph{linearly independent} if and only if each $v\in\mathrm{span}(v_1,\dots,v_n)$ has only one representation as a linear combination of $v_1,\dots,v_n$
+\medskip
+\end{itemize}
+
+{
+
+So every vector $v\in V$ can be expressed \emph{uniquely} as a linear combination 
+\[v = \sum_{i=1}^n \alpha_i v_i\]
+You can think of a basis as the minimal set of vectors that generates the entire space.
+}
+
+
+\begin{itemize}
+\item $(1,0,\dots,0),(0,1,0,\dots,0),\dots,(0,\dots,0,1)$ is a basis of $\mathbb{R}^n$ called the \emph{standard basis}; its vectors are called the \emph{indicator vectors}. In deep learning, also called \emph{one-hot} representation.
+\item $(1,2),(3,5.07)$ is a basis of $\mathbb{R}^2$
+\item \begin{align*}f_1(x)&=\left\{ \begin{array}{ll}
+         1 & \mbox{if $x=x_1$}\\
+         0 & \mbox{else}\end{array} \right.\\
+        f_2(x)&=\left\{ \begin{array}{ll}
+         1 & \mbox{if $x=x_2$}\\
+         0 & \mbox{else}\end{array} \right.\\ &\vdots\end{align*} is the standard basis for the set of functions $f:\mathbb{R}\to\mathbb{R}$; the basis vectors are also called \emph{indicator functions}
+\end{itemize}
+
+An image expressed in the \emph{standard basis}:
+
+\medskip\smallskip
+
+%\begin{center}
+				\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.8\linewidth]{03/yokohama_lin}
+		\put(19,8){\footnotesize $=\alpha_1$}
+				\put(46.5,8){\footnotesize $+\alpha_2$}
+								\put(74,8){\footnotesize $+\alpha_3$}
+												\put(100.5,8){\footnotesize $+\cdots$}
+		\end{overpic}
+%\end{center}
+
+\medskip\medskip
+The same image, expressed in terms of a \emph{nonlinear} map $\sigma$:
+
+\begin{center}
+\medskip\smallskip
+
+%\begin{center}
+				\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.6\linewidth]{03/yokohama_nonlin}
+		\put(25,10){\Large $=\sigma ($}
+		\put(69,10){\Large $,$}
+		\put(81,10){\Large $,$}
+      	\put(101,10){\Large $)$}
+		\end{overpic}
+%\end{center}
+\end{center}
+
+\medskip
+
+The image is \textbf{not} in the span of the three features. 
+
+A vector space may have different bases; any two bases have the \emph{same number of vectors} The \emph{dimension} of a (finite-dimensional) vector space is the length of any basis of the vector space.
+
+{
+\textbf{Note:} Even though function spaces are \emph{not} necessarily finite dimensional (Q: why?), with digital data they usually are, since we deal with finite discrete domains (images, graphs, text, etc.).
+}
+
+{
+\bigskip\bigskip
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{03/r.pdf}
+		\put(17,6){$\mathbb{R}$}
+		\put(1,-3){\footnotesize $\cdots x_1~ x_2~ x_3 \cdots$}
+		\put(70,6){$\mathcal{A}\subset\mathbb{R}$ (finite)}
+		\put(60,-3){\footnotesize $y_1$}
+		\put(71,-3){\footnotesize $y_2$}
+		\put(82,-3){\footnotesize $y_3$}
+		\put(92,-3){\footnotesize $y_4$}
+		%
+		\put(10,-10){\footnotesize $f:\mathbb{R}\to\mathbb{R}$}
+		\put(3,-15){\footnotesize infinite dimensional}
+		\put(3,-20){\footnotesize \emph{(functional analysis)}}
+		\put(70,-10){\footnotesize $f:\mathcal{A}\to\mathbb{R}$}
+		\put(65,-15){\footnotesize finite dimensional}
+		\put(67,-20){\footnotesize \emph{(linear algebra)}}
+		\end{overpic}
+\end{center}
+}
+
+\bigskip\bigskip\bigskip\bigskip\bigskip

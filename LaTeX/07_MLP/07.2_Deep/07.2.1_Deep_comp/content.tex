@@ -1,0 +1,43 @@
+%!TEX root=../../../root.tex
+
+The simplest DNN we may create is the composition of two models:
+
+\begin{equation}
+    f \circ  f(\mathbf{x})
+\end{equation}
+
+This does not seem very ``deep'', and indeed there is not a strict definition of what makes a network deep or shallow. More notably, if the two functions are linear, also their composition is linear.
+\begin{equation}
+    \underbrace{f}_{\textrm{linear}} \circ  \underbrace{f}_{\textrm{linear}}(\mathbf{x}) \implies \underbrace{f \circ  f}_{\textrm{linear}}(\mathbf{x})
+\end{equation}
+
+As we will see, what makes DNNs interesting is their theoretical capacity of representing every function, even highly nonlinear ones. This is of course not possible if our DNN is just a linear function, so the least we can do is replace the second function with a nonlinear one:
+\begin{equation}
+    \sigma \circ  f(\mathbf{x})
+\end{equation} 
+
+$\sigma$ is sometimes refered to as \emph{non-linearity}, or \emph{activaction function.} If $\sigma$ is the logistic function, we have the \emph{logistic regression} model. 
+
+Now that we have a simple nonlinear model, we can build a more complex nonlinear model by composing multiple nonlinear \emph{layers}.
+Consider for example multiple \emph{layers} of logistic regression models:
+
+\begin{equation}
+	\textrm{output} \leftarrow 
+	\underbrace{(\sigma \circ f)}_{\textrm{layer n}}
+	\circ (\sigma \circ f) 
+	\circ \cdots \circ 
+	\underbrace{(\sigma \circ  f)}_{\textrm{layer 1}}(\mathbf{x})
+	\leftarrow {\textrm{input}} 
+\end{equation}
+
+This already defines a \emph{deep model}. Note that function composition is associative, so parentheses are not necessary. Note furthermore that the $f$ and $\sigma$ in the above expression could be different linear transformations and nonlinearities.
+
+More in general, there are various activation functions, with different properties; the logistic sigmoid for example is continous
+\begin{equation}
+    \sigma(x) = \frac{1}{1+e^{-x}} 
+\end{equation} 
+while the \emph{Rectified Linear Unit} (ReLU)
+\begin{equation}
+	\sigma(x) = \max\{0, x\}
+\end{equation}
+has a discontinous gradient, even if the function itself is continous.

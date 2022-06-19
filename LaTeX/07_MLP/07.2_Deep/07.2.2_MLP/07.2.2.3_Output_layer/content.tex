@@ -1,0 +1,22 @@
+%!TEX root=../../../../root.tex
+
+
+The output layer determines the co-domain of the network:
+
+\begin{equation} 
+    \mathbf{y}= (\sigma \circ f) \circ (\sigma \circ f) \circ \cdots \circ (\sigma \circ  f) (\mathbf{x}) 
+\end{equation}
+
+If $\sigma$ is the logistic sigmoid, then the entire network will map:
+\begin{equation} 
+\mathbb{R}^p \to (0,1)^{q}
+\end{equation}
+
+For  generality, it is common to have a \emph{linear} layer at the output:
+\begin{equation}
+    \mathbf{y}= f \circ (\sigma \circ f) \circ \cdots \circ (\sigma \circ  f) (\mathbf{x}) 
+\end{equation}
+mapping:
+\begin{equation}
+    \mathbb{R}^p \to \mathbb{R}^{q}
+\end{equation}

@@ -1,0 +1,21 @@
+%!TEX root=../../../root.tex
+
+Data tends to be \emph{self-similar} across the domain, meaning that one can identify building blocks that are repeated almost identically, to build up the data.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{08/barbara_compressed.pdf}
+        \end{overpic}
+    \end{subfigure}
+    \vspace{1cm}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{08/patchmatch2}
+        \end{overpic}
+    \end{subfigure}
+    \caption{Self-similarity means less information needed to be represented by the network. Self-similarity also means data is \textit{predictable}: we expect the fence and the vegetation to continue behind the eagle, lazily repeating itself, and so does the network, that is able to remove it from the image and fill in the gap in a credible way.}
+\end{figure}

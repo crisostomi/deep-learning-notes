@@ -1,0 +1,114 @@
+%!TEX root=../../../root.tex
+
+We have seen that convolution deals with continuous, real-valued functions. But our data (like images) live in the discrete, vector-valued domain. The ideas behind convolution can be adapted to the \emph{discrete} setting, in which we define the \emph{convolution sum}:
+\begin{equation}
+    (\mathbf{f} \star \mathbf{g}) [n]= \sum_{k=-\infty}^\infty  \mathbf{f} [k] \mathbf{g}[n-k]
+\end{equation}
+where $f, g$ are no longer functions but rather \emph{sequences}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/c1}
+            \put(82,25){${\scriptscriptstyle\times} ~ {\scriptstyle\mathbf{f}}$}
+                \put(82.5,22){${\scriptscriptstyle\circ} ~ {\scriptstyle\mathbf{g}}$}
+        \end{overpic}
+    \end{subfigure}
+    \hspace{1em}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/c2}
+                \put(82,25){${\scriptscriptstyle\times} ~ {\scriptstyle\mathbf{f}}$}
+                \put(82.5,22){${\scriptscriptstyle\circ} ~ {\scriptstyle\mathbf{g}}$}
+        \end{overpic}
+    \end{subfigure}
+
+    \vspace{1em}
+    
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/c3}
+                \put(82,25){${\scriptscriptstyle\times} ~ {\scriptstyle\mathbf{f}}$}
+                \put(82.5,22){${\scriptscriptstyle\circ} ~ {\scriptstyle\mathbf{g}}$}
+        \end{overpic}
+    \end{subfigure}
+    \hspace{1em}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/c4}
+                \put(10,20){\footnotesize ${\mathbf{f}\star\mathbf{g}}$}
+        \end{overpic}
+    \end{subfigure}
+    \caption{Visualization of discrete convolution on two sequences $f, g$.}
+\end{figure}
+
+In the example above, $f$ was \emph{zero-padded} in order for the products to be
+well defined for all shifts (\emph{boundary conditions}). If the sequences $f, g$ are finite (as it is usually the case with real data), then the convolution operator can be encoded as a \emph{Toepliz matrix} (or \emph{circulant} matrix) as follows:
+\begin{eqnarray}
+    \mathbf{f}\star \mathbf{g} =
+    \begin{pmatrix}
+    g_{1} & g_2 & \hdots & \hdots & g_{n} \\
+    g_{n} & g_1 & g_2 & \hdots & g_{n-1} \\
+    \vdots & \vdots & \ddots & \ddots & \vdots \\
+    g_{3} & g_{4} &  \hdots &g_1 & g_2 \\
+    g_{2} & g_{3} &  \hdots &\hdots & g_1 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+    f_1\\
+    \vdots\\
+    f_n\\
+    \end{pmatrix}.
+\end{eqnarray}
+
+This can be extended to $2$-dimensional data. For instance we can consider RGB images as sequences $f: \mathbb{N}^2 \to \mathbb{R}^3$. Then we can consider each channel independently, thus considering three sequences $f: \mathbb{N}^2 \to \mathbb{R}$ over which we define the following $2D$ convolution sum:
+\begin{equation}
+    (\mathbf{f} \star \mathbf{g}) [m,n]= \sum_k\sum_\ell  \mathbf{f} [k,\ell] \, \mathbf{g}[m-k,n-\ell].
+    \label{eq:08:03:conv-sum}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,width=0.95\linewidth]{08/patch_euclidean1.pdf}
+    %	\put(38.5,41){\footnotesize $x$}
+        \end{overpic}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,width=0.95\linewidth]{08/patch_euclidean2.pdf}
+    %	\put(50.5,41){\footnotesize $x'$}	
+        \end{overpic}
+    \end{subfigure}
+    \caption{Visual interpretation of $2D$ convolution of an image with a kernel as the action of \emph{sliding} a \emph{moving window} onto the image.}
+\end{figure}
+
+We can further generalize convolution: for functions $f:\mathbb{R}^k \to \mathbb{R}^m$ defined on \textit{Euclidean domains}, convolution is well-defined up to appropriate \textit{boundary conditions}. In practice, convolution is often replaced by other operations with similar properties (locality, compositionality, etc.), as we'll see.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \animategraphics[autoplay,loop,width=\linewidth]{2}{08/animations/no/frame}{0}{3}
+        \caption{No padding: the convolution kernel is directly applied within the boundaries of the underlying function (an image in this example). The result of the convolution is a smaller image.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \animategraphics[autoplay,loop,width=\linewidth]{4}{08/animations/full/frame}{0}{48}
+        \caption{Full zero-padding: the domain is enlarged and padded with zeroes. The convolution kernel is applied within the (now larger) boundaries. The result of the convolution is a larger image.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \animategraphics[autoplay,loop,width=\linewidth]{2}{08/animations/strides/frame}{0}{8}
+        \caption{Arbitrary zero-padding, with stride: the domain is enlarged and padded with zeroes, but not enough to capture the boundary pixels. Further, each discrete step skips one pixel. The result is the same as no stride followed by downsampling.}
+    \end{subfigure}
+    \caption{Boundary conditions and stride.}
+\end{figure}

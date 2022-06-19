@@ -1,0 +1,45 @@
+%!TEX root = ../../root.tex
+
+Autoencoders replace the linear encoding step and the linear decoding step with two deep neural networks, that by the universal approximation theorem are (theoretically) able to approximate any function, thus generalizing the idea of PCA as a parametric model.
+\begin{figure}[H]
+	\centering
+	\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.6\linewidth]{11/ae2}
+		\put(-11,24){$\mathbf{x}\to$}
+		\put(48,33){$\mathbf{z}$}
+		\put(100,24){$\to\mathbf{x}$}
+		%
+		\put(20,22){\Large $\mathbf{E}$}
+		\put(73,22){\Large $\mathbf{D}$}
+	\end{overpic}
+	\caption{Autoencoder architecture.}\label{fig:autoencoder}	
+\end{figure}
+Notice how the architecture of autoencoders has a \emph{bottleneck} at the middle. The \emph{encoder} function $E(\vb{x})$ will produce a \emph{code} $\vb{z}$ that is lower dimensional, and that will be the input of the \emph{decoder} function $D(\vb{z})$.
+The bottleneck is explicitly designed to make autoencoders unable to learn to copy perfectly, i.e.
+\begin{equation}
+    D(E(\vb{x})) = \vb{x}.
+\end{equation}
+In fact, we are not really interested in the final output of the autoencoder, but in the middle representation $\vb{z}$, also called \emph{latent code} for $\vb{x}$. Since the model is able to copy only approximately, it is forced to prioritize which aspects of the input should be copied. This means that autoencoders often learn useful properties of the data.
+
+The autoencoder is trained by minimizing the \emph{reconstruction loss}:
+\begin{equation}
+	\ell_\Theta = \sum_{i} \| \mathbf{x}_i - D_\Theta \left( E_\Theta \left( \mathbf{x}_i \right)\right)\|
+\end{equation}
+where the choice of the specific metric depends on the data and on the task we are dealing with.
+\\
+
+\textbf{Note.} If the layers of both the encoder and the decoder are linear, then the codes $\vb{z}_i$ span exactly the same space as PCA.
+
+\subsection{Manifolds} 
+\input{11_Generative/11.2_Autoencoders/11.2.1_Manifolds/content.tex}
+
+\paragraph{Limitations of autoencoders}
+
+More often than not, we need to ``hack'' autoencoders a little bit to make them work well. In fact, ideally we would like, once an autoencoder is trained, for the decoder to have learnt \emph{globally} the chart for the data manifold. However, what often happens in practice is that they overfit the data, leading to charts that perfectly map the codes from the latent space corresponding to training data to the the manifold, but when fed with unseen codes, they produce results that are clearly not on the manifold. For instance, a certain vector $\vb{z}_1$ might be the code for the image $\vb{x}_1$ of the digit $1$, another vector $\vb{z}_2$ might be the code for another image $\vb{x}_2$ of the digit $2$, but when taking as code the mean of the two $(\vb{z}_1 + \vb{z}_2) / 2$ a decoder might produce garbage image, while from the \emph{smoothness} requirement on the chart we would expect something that has to do with the digits $1$ and $2$.
+
+There are many possible variations, acting as extra regularization to enforce \emph{smoothness} in the chart (often referred to the latent space itself, i.e. a \emph{smooth representation} of the latent space). For instance:
+\begin{itemize}
+	\item \emph{Denoising autoencoders}: set random values of the input to zero and require that the reconstructed data is exactly equal to the input, so we are adding some noise to the input. By doing this we obtain an autoencoder which can ignore that noise and it is forced to capture the correlation between the inputs.
+	\item \emph{Contractive autoencoders}: the idea is that we want the autoencoder to be robust to small variations and this is done by penalizing the gradient of latent code wrt the input.
+\end{itemize}
+Other autoencoders can be obtained adding constraint on the latent codes (\textit{e.g.} sparsity), optimizing for the dimensions, etc.

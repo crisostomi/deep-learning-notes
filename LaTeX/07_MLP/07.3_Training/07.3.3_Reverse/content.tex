@@ -1,0 +1,72 @@
+%!TEX root=../../../root.tex
+
+In \emph{reverse mode}, we compute all the partial derivatives $\frac{\partial f}{\partial z},\dots,\frac{\partial f}{\partial x}$ with respect to the \emph{inner nodes}. To stress the difference, remind that in the forward mode we computed the derivatives of each node with respect to the input, so the derivative of the last node was the derivative of $f$ wrt to $x$.
+
+Let's consider again the same function
+\begin{equation*}
+    f(x) = \log x + \sqrt{\log x} 
+\end{equation*}
+with the same computation graph:
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.3\linewidth]{07/graph1rev}
+		\put(1,21){\footnotesize $x$}
+		\put(13,19){\footnotesize $\log$}
+		\put(33,21){\footnotesize $y$}
+		\put(44,20){\footnotesize $\sqrt{~}$}
+		\put(63.5,21){\footnotesize $z$}
+		\put(101,15){\footnotesize $f=y+z$}
+		\end{overpic}%
+\end{center}
+
+Then automatic differention in reverse mode would be:
+\begin{equation}
+    \begin{aligned}
+        \frac{\partial f}{\partial f} &= 1\\
+        \frac{\partial f}{\partial z} &= \frac{\partial f}{\partial f} \frac{\partial f}{\partial z}=\frac{\partial f}{\partial f} \frac{\partial (y+z)}{\partial z} = \frac{\partial f}{\partial f} \\
+        & = 1 \\
+        \frac{\partial f}{\partial y} &=\frac{\partial f}{\partial z} \frac{\partial z}{\partial y} + \frac{\partial f}{\partial f} \frac{\partial f}{\partial y} = \frac{\partial f}{\partial z}\frac{\partial \sqrt{y}}{\partial y}+ \frac{\partial f}{\partial f} \frac{\partial (y+z)}{\partial y} = \frac{\partial f}{\partial z}\frac{1}{2\sqrt{y}}+ \frac{\partial f}{\partial f}\\
+        & = \frac{1}{2\sqrt{y}} + 1 \\
+        \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial y} \frac{\partial y}{\partial x}= \frac{\partial f}{\partial y} \frac{\partial \log x}{\partial x}= \frac{\partial f}{\partial y} \frac{1}{x} \\
+        & = \frac{1}{x} \left( \frac{1}{2\sqrt{y}} + 1 \right).
+    \end{aligned}
+    \label{eq:07:3:2:reverse}
+\end{equation}
+
+Notice that, as expected, the resulting expression for $\frac{\partial f}{\partial x}$ in both \cref{eq:07:3:2:forward} \cref{eq:07:3:2:reverse} is the same. There are however differences between the two procedures. 
+
+First, notice that in \cref{eq:07:3:2:reverse} some expressions are defined in terms of \emph{internal nodes}, so reverse mode requires computing the values of the internal nodes first. This is not necessary in forward mode since it takes place with the same order the graph traversal, therefore their values is already computed.
+
+% \begin{equation}
+%     \begin{aligned}
+%         \frac{\partial f}{\partial f} & = 1\\
+%         %
+%         \frac{\partial f}{\partial z} & =\frac{\partial f}{\partial f} \frac{\partial (y+z)}{\partial z}= \frac{\partial f}{\partial f} \\
+%         %
+%         \frac{\partial f}{\partial y} & = \frac{\partial f}{\partial z}\frac{\partial \sqrt{y}}{\partial y}+ \frac{\partial f}{\partial f} \frac{\partial (y+z)}{\partial f} = \frac{\partial f}{\partial z}\frac{1}{2\sqrt{{\color{red}\mathbf{y}}}}+ \frac{\partial f}{\partial f}\\
+%         %
+%         \frac{\partial f}{\partial x} &=  \frac{\partial f}{\partial y} \frac{\partial \log x}{\partial x} = \frac{\partial f}{\partial y} \frac{1}{\color{red}\mathbf{x}}.
+%     \end{aligned}
+% \end{equation}
+
+So first a \emph{forward pass} must be done to evaluate all the interior nodes $y,z,\dots$
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.25\linewidth]{07/graph1}
+		\put(1,21){\footnotesize $x$}
+%		\put(13,19){\footnotesize $\log$}
+		\put(33,21){\footnotesize $y$}
+	%	\put(44,20){\footnotesize $\sqrt{~}$}
+		\put(63.5,21){\footnotesize $z$}
+		\put(101,15){\footnotesize $f=y+z$}
+		\end{overpic}
+\end{center}
+then a \emph{backward pass} must be done to compute the \emph{derivatives}.
+Note that the forward pass is \emph{not} forward-mode autodiff, since we are only computing \emph{function values}.
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.25\linewidth]{07/graph1rev}
+				\put(-15,15){\footnotesize $\frac{\partial f}{\partial x}$}
+				\put(101,15){\footnotesize $f$}
+		\end{overpic}
+\end{center}

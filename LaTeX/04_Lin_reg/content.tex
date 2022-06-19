@@ -1,0 +1,30 @@
+%!TEX root = ../root.tex
+
+Let us recap briefly what is the general setting:
+in deep learning, we deal with \emph{highly parametrized} models, usually in the order of millions or even hundreds of millions of parameters, and these models are called \emph{deep neural networks}. A deep neural network models some function $f$, possibly nonlinear, parametrized by parameters $\Theta$. In general, given a data point $x$ in input to the neural network, this returns an output $y$:
+
+\begin{equation}
+	f_{\Vector{\Theta}}(\vec{x}) = \vec{y}
+\end{equation}
+
+A neural network takes the form of a composition of multiple simpler blocks each of which has a predefined structure (\textit{e.g.} one block might be modelling a linear map). The structure is chosen by who designs the neural network, so this is not something that we solve for, but is fixed during the design of the neural network.
+
+Each block is defined in terms of unknown parameters $\Theta$ and the collection of the parameters of all the blocks are the parameters of the entire network.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{04/nn1}
+	\caption{Example of a neural network structure}\label{fig:nn-structure}	
+\end{figure}
+
+We usually have access to few data points $X$ and a few data points $Y$, \textit{i.e.} our training pairs of examples, and our task is to solve for the parameters $\Theta$ of the function $f_{\vb*{\Theta}}$ that \emph{is most likely} to have produced $Y$ from $X$, i.e. we have to \emph{infer} the function $f$ from $\{X, Y\}$. Finding the values of the function parameters $\vb*{\Theta}$ is called \emph{training}. 
+
+In order to do this, we need to define some criterion with which we can say that the \emph{learned function} $f_{\vb*{\Theta}}$ is more or less likely to represent \emph{true function} $f$. This is usually done by defining some energy function that depends on the produced output $\hat{Y} = f_{\vb*{\Theta}}(X)$, and so indirectly on the parameters $\vb*{\Theta}$ (since these influence the learned function $f_{\vb*{\Theta}}$), that we usually call \emph{loss function}, which we want to minimize. 
+Finding the parameters that minimize the loss function will be done using an optimization procedure that requires computing gradients, so it involves what we call \emph{backpropagation}, \textit{i.e.} the process of computing derivatives of all the functions involved in the network.
+
+\section{Linear Regression} 
+\input{04_Lin_reg/4.1_Lin_Regression/content.tex}
+\section{Convexity} 
+\input{04_Lin_reg/4.2_Convexity/content.tex}
+\section{Gradients} 
+\input{04_Lin_reg/4.3_Gradients/content.tex}

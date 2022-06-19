@@ -1,0 +1,31 @@
+%!TEX root=../../../root.tex
+
+Translation does not change the information content of an image, therefore it is desirable to enforce \emph{translation invariance}. What this means is that if two pieces of data are identical up to a translation (\textit{e.g.}, an object is shifted in an image), then we want our networks to produce identical outputs.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.37\linewidth}
+        \centering
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=1\linewidth]{08/cat1_compressed.pdf}
+        \end{overpic}
+    \end{subfigure}
+    \hspace{1em}
+    \begin{subfigure}[t]{0.37\linewidth}
+        \centering
+        \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=1\linewidth]{08/cat2_compressed.pdf}
+        \end{overpic}
+    \end{subfigure}
+    \caption{A cat is still a cat regardless of where it is located in an image.}
+\end{figure}
+
+Formally, we define the \emph{translation operator} in the following way:
+\begin{equation}
+    {\cal T}_v f(x) = f(x - v)
+\end{equation}
+where $f$ is the function encoding the data. For instance, if we had an image, $x$ would be the two-dimensional vector of pixel coordinates, and $f(x)$ would be a three-dimensional vector of RGB values. So, we are defining an operator that transforms data $f(x)$ such that data at position $x-v$ ends up ad position $x$. With this definition, translation invariance is defined as:
+\begin{equation}
+    y({\cal T}_v f) = y(  f)  ~~~\forall f, {\cal T}_v
+\end{equation}
+where $y$ is a classification functional such as our network.

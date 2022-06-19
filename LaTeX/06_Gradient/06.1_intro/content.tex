@@ -1,0 +1,39 @@
+%!TEX root = ../../root.tex
+
+Nonlinear optimization is a very broad research area, of which we will only consider the branch that is concerned with \emph{first-order methods}, \textit{i.e.} methods that to optimize a function involve the first-order derivatives (in our case it is the gradient) of that function. On the other hand, a second-order method would also involve the use of the second-order derivatives of the function. The most basic of these optimization is known as \emph{Gradient descent}.
+
+Gradient descent (GD) is a first-order \emph{iterative} minimization algorithm. It is iterative since it involves a series of iterated computations to find the \emph{local} minimum of a function, given some \emph{initial conditions}. Notice the word local, meaning that we effectively lose any \emph{global} optimality guarantee when entering the domain of non-convex functions. These functions have multiple local minima, and GD will \emph{converge} to one of these points; which one exactly depends on the initial conditions.
+
+The intuition behind GD is pretty straight-forward: starting from some point in the domain of the function, computing the gradient of the function at that point will tell us the direction of steepest increase (or ascent) of the function itself. Since we want to minimize the function, we take a ``step'' in the opposite direction, the direction of steepest \textit{decrease} (or descent, hence the name of the algorithm), moving to a new point. In this new point, we repeat the process, and we do so for a certain number of steps, or until some termination condition is met (often referred to as \emph{convergence criterion}). 
+
+\begin{samepage}
+Ideally, the convergence criterion would be having a perfectly null gradient, meaning that we cannot move (in a linear way) ``downwards'' anymore; we have reached a stationary point, and we have effectively reached a (local) minimum of the function\footnote{or a \emph{saddle point}, if we are \emph{very} unlucky; in practice this is never a problem, since theoretically they become exponentially more rare the higher it is the dimension of the domain, and also practically being \emph{exactly} in a saddle point is almost impossible given the finite numerical precision of machines}. In practice for numerical precision issues this means setting a tolerance threshold under which we can say with confidence that we are in a stationary point.
+\end{samepage}
+
+\begin{figure}[H]
+	\centering
+	\begin{overpic}
+	[trim=0cm 0cm 0cm 0cm,clip,width=0.5\linewidth]{06/gradientint}
+	\end{overpic}
+    \caption{Plot of a function from $\mathbb{R}^2$ to $\mathbb{R}$.}
+    \label{fig:06:1:gradient}
+\end{figure}
+
+In model fitting, the function we want to minimize is the loss function, that has the model parameter space as domain and the real axis as codomain. Therefore the initial point is some initial values for the model parameters; this may be chosen randomly or with some ``clever'' initialization procedure. We then compute the value of the loss and therefore also the gradient of the loss at that point, which will tell us the (opposite of the) direction of steepest descent. So, we now have the direction in the parameter space that will (locally) make the loss decrease the most. How much should we ``move'' (i.e. change the parameters) in that direction? This is the \emph{step size}, that can be thought as a \emph{hyperparameter}. 
+
+Having chosen a suitable step size we can make our step in that direction, moving to a new point that will be a new set of values for the model parameters. From this point in the parameter space we will compute again the loss function and iterate the process until the convergence criterion is met, tracing a sort of path (see \cref{fig:06:1:gradient}) that ends in a local minimum.
+
+Let's outline this procedure more formally:
+\begin{enumerate}
+	\item Define an initial condition for the algorithm, \textit{i.e.} a point $\Theta^{(0)} \in \mathbb{R}^n$;
+	\item Iteratively update the parameters with the following update law:
+			\begin{equation}
+				\Theta^{(t+1)} \gets \Theta^{(t)} - \alpha\nabla\ell_{\Theta^{(t)}};
+				\label{eq:chap6:intro:update-law}
+			\end{equation}
+	\item Stop iterating when a convergence criterion is satisfied, \textit{e.g.}
+	\[
+		\norm{\gradient \ell_{\Theta^{(t)}}} \leq \epsilon
+	\]
+	for a suitable small positive value $\epsilon$.
+\end{enumerate}

@@ -1,0 +1,209 @@
+%!TEX root = ../root.tex
+
+\section{Signals}
+
+\emph{Signal processing} is the field of engineering that studies \emph{signals}, how to analyse, modify and synthesise them.
+
+What is a signal? Its definition is not a strict one, on the contrary, it is one of the loosest definition one may find. Intuitively, a signal exists as a \emph{carrier of information}, and this information can be of various nature, hence to capture a large spectrum of phenomena the definition is kept loose. 
+
+We may define a signal as \emph{any variable physical quantity that conveys information about a phenomenon}. With this definition, the formalization of a signal is one of a \emph{mathematical function} of one or more variables. The independent variables in the physical world may be time, or space, or both. The dependent variable describes the information of interest. 
+
+For example, a song can be thought of as a signal
+\begin{equation}
+    x(t): \mathbb{R} \to \mathbb{R}
+\end{equation} 
+in which the independent variable $t$ is time, so that the signal tells us the intensity of sound at that moment.
+
+Also an \emph{image} may be though of as a signal, since it respects the definition we gave: the information of an image is the intensity values of all the pixels that compose it. So, it can be described as a signal
+\begin{equation}
+    f(x_1, x_2): \mathbb{R}^2 \to \mathbb{R}
+\end{equation}
+in which the independent variables are \emph{spatial}, so that the signal tells us the \emph{intensity} of a generic point $\vb{x} = (x_1, x_2)^{\top}$ of the image.
+
+\section{Fourier series}
+
+
+We like simple things. Signals, as functions, can be very complicated functions, very difficult to process. It would be nice to be able to \emph{decompose} a complicated signal as combination of several \emph{elementary} signals, each one of known characteristics and hence easy to process, and so be able to process the original signal considered as a \emph{superposition} of these elementary signals.
+
+What would be an elementary signal? The most elementary of signals is the \emph{constant} signal, but as you can imagine we cannot describe arbitrary signals as combination of constant signals. As it turns out, in signal processing we like \emph{sinusoids}, or \emph{sine waves}, since they are easily described. 
+
+A sine wave is a function
+\begin{equation}
+    x(t) = A \sin(2 \pi f t + \phi),
+\end{equation}
+here described as a function of time $t$.
+
+A sine wave is \emph{periodic}, i.e. it is
+\begin{equation}
+    x(t + T_0) = x(t)
+\end{equation}
+so the signal repeats itself after every cycle of width $T_0$, and it suffices to describe the signal in this window to be able to describe the whole signal. 
+Most notably, we can \emph{completely} characterize a sine wave in terms of just three quantities: \emph{amplitude} $A$, \emph{frequency} $f_0$ and \emph{phase} $\phi$.
+\begin{itemize}
+    \item the amplitude tells us the maximum (and minimum) value that the sine wave can take;
+    \item the frequency tells us the number of cycles that occur each second of time (or in each unit of the independent variable, in general);
+    \item the phase tells us the \emph{displacement} of the sine wave, i.e. where in its cycle the oscillation is at the initial instant $t = 0$. A sine wave with $\phi = 0$ starts at the origin at $t = 0$. A sine wave with $\phi = \pi/2$ starts at $A$ at the origin, and actually becomes a cosine wave.
+\end{itemize}
+
+Given these three parameters, a sine wave is completely determined. Therefore, it would be nice to be able to describe arbitrarily complicated signals as combinations of sine waves, since that would mean combinations of just these three pieces of information for each member of the combination.
+
+The \emph{Fourier series} allows us to describe any \emph{periodic} signal as a composition of sine waves. These sine waves are \emph{harmonically} related to each other, meaning that their frequency is not random, but is a multiple of a \emph{fundamental frequency} $f_0$, so that their combination is able to keep the periodic nature of the original signal. In fact, if a time signal $x(t)$ is periodic of period $T_0$, it will repeat itself $f_0 = \frac{1}{T_0}$ times in each unit of time.
+
+The $k$-th sinusoid will have frequency $2 \pi k f_0$, and will be called $k$-th \emph{harmonic oscillation}, or simply $k$-th \emph{harmonic}.
+
+Now, given a certain harmonic, we have to specify what is its amplitude and its phase. We could do so with two numbers, but actually \emph{complex numbers} can be described in \emph{polar coordinates} with exactly this two quantities, and furthermore thanks to the \emph{Euler formula} 
+
+\begin{equation}
+    e^{i \theta} = cos(\theta) + i \cdot sin (\theta)
+\end{equation}
+we can express a sine wave as a combination of complex numbers:
+\begin{equation}
+    A \sin(2 \pi f t + \phi) = A \frac{e^{(2 \pi f t + \phi) i} - e^{-(2 \pi f t + \phi) i}}{2 i}
+\end{equation}
+where $i$ is the imaginary unit.
+
+Actually, since it is:
+\begin{equation}
+    A \cos(2 \pi f t + \phi) = A \frac{e^{(2 \pi f t + \phi) i} + e^{-(2 \pi f t + \phi) i}}{2}
+\end{equation}
+we prefer to use \emph{cosine waves}, since as we have seen one can obtain the other by a shift in phase of $\frac{\pi}{2}$.
+
+So the $k$-th harmonic will be a function:
+\begin{equation}
+    \begin{aligned}
+        A_k \cos(2 \pi k f_0 t + \phi_k) & = A_k \frac{e^{(2 \pi k f_0 t + \phi_k) i} + e^{-(2 \pi k f_0 t + \phi_k) i}}{2}  \\
+        & = \underbrace{A_k}_{\mathclap{\text{amplitude}}} \overbrace{e^{i \phi_k}}^{\mathclap{\text{phase}}} \underbrace{e^{2 \pi k f_0 t}}_{\mathclap{\text{frequency}}} + A_k e^{- i \phi_{k}} e^{-2 \pi k f_0 t}.
+    \end{aligned}
+\end{equation}
+so that we can express a signal $x(t)$ as the Fourier series:
+\begin{equation}
+    \begin{aligned}
+        x(t) & = \sum_{k = 0}^{\infty} A_k e^{i \phi_{k}} e^{2 \pi k f_0 t} + \sum_{k = 0}^{\infty} A_k e^{-i \phi_{k}} e^{-2 \pi k f_0 t} \\
+        & = \sum_{k = 0}^{\infty} A_k e^{i \phi_{k}} e^{2 \pi k f_0 t} + \sum_{k = -\infty}^{-1} A_{-k} e^{-i \phi_{-k}} e^{-2 \pi k f_0 t} \\
+        & = \sum_{k = - \infty}^{\infty} X_k e^{2 \pi k f_0 t}
+    \end{aligned}
+\end{equation}
+in which we have defined 
+\begin{equation}
+    X_k \triangleq 
+    \begin{cases}
+        A_k e^{i \phi_k} & k = 1, 2, \dots \\
+        A_{-k} e^{-i \phi_{-k}} & k = \dots, -2, -1.
+    \end{cases}
+\end{equation}
+\begin{itemize}
+    \item  $X_k$ is a complex number called \emph{Fourier coefficient}, whose magnitude $|X_k|$ encodes the amplitude of the $k$-th harmonic and whose phase $\phi(X_k)$ encodes the phase of the $k$-th harmonic.
+    \item $e^{2 \pi k f_0 t i}$ is a member of the \emph{Fourier basis}.
+\end{itemize}
+
+We are expressing the periodic signal $x(t)$ as the infinite discrete combination of the Fourier basis through the complex coefficients $X_k$. 
+Without showing the derivation, we can compute $X_k$ from the original signal $x(t)$ as:
+\begin{equation}
+    X_k = \frac{1}{T_0} \int_{-T_0/2}^{T_0 / 2} x(t) e^{- 2\pi k f_0 t i} dt.
+\end{equation}
+
+So to summarize for a periodic signal $x(t)$ we have an equation of \emph{analysis}, that allows us to \emph{decompose} the signal in the \emph{time domain} as the combinations of elementary signals (represented as Fourier coefficients in the complex domain, also called Fourier or \emph{frequency domain}), and an equation of \emph{synthesis}, that allows us to \emph{reconstruct} the signal given its representation in the \emph{frequency domain}:
+\begin{equation}
+    x(t) = \sum_{-\infty}^{\infty} X_k e^{2 \pi k f_0 t i}, \qquad X_k = \frac{1}{T_0} \int_{-T_0/2}^{T_0 / 2} x(t) e^{- 2\pi k f_0 t i} dt.
+\end{equation}
+
+In the first relation we need to know the fundamental frequency $f_0$ and the \emph{sequence} of Fourier coefficients $X_k = \{X_0, \dots, X_k, \dots\}$; in the second relation we need to know the period $T_0$ and the behavior in time $x(t)$ of the signal. The two relations allow to establish a $1$-to-$1$ correspondance 
+\begin{equation}
+    x(t) \iff X_k
+\end{equation}
+such that knowing the signal in the \emph{time domain} $x(t)$ or knowing the signal in the \emph{frequency domain} as the sequence $X_k$ has the same information content.
+
+
+\section{Fourier transform}
+
+Recall that we can decompose a signal $x(t)$ as a Fourier series only if the signal is \emph{periodic}. Can we say something about arbitrary signals $x(t)$? It turns out that we can, through the \emph{Fourier transform}.
+
+We can still decompose such signals as a proper superposition of elementary (cosinusoidal) signals, but this superposition will be different. We can think of an \emph{aperiodic} signal as a signal whose period is ``infinite'', meaning that it never repeats itself. In the limit of $T_0 \to \infty$, all the frequencies $k f_0$ of the harmonics go to zero, they become \emph{infinitesimal} frequencies.
+
+If we think of $X_k$ as the sampling of a continuous function $X(f)$ of frequency, discretely sampled at the harmonic frequencies $k f_0$:
+\begin{equation}
+    X(k f_0) \triangleq T_0 X_k = \frac{1}{f_0} X_k
+\end{equation}
+then for a periodic signal we have
+\begin{equation}
+    \begin{aligned}
+        x(t) & = \sum_{k = -\infty}^{\infty} X_k e^{2 \pi k f_0 t i } \\
+        & = \sum_{k = -\infty}^{\infty} X(k f_0) e^{2 \pi k f_0 t i } \cdot f_0.
+    \end{aligned}
+\end{equation}
+
+As the signal becomes aperiodic, $T_0 \to \infty$ and $f_0 \to 0$, so that both the increment $f_0$ between two sampled points $k f_0, (k+1) f_0$ becomes infinitesimal, and we have an infinite sum of samples at infinitesimal distance:
+\begin{equation}
+    \begin{aligned}
+        x(t) & = \lim_{f_0 \to 0} \sum_{k = -\infty}^{\infty} X(k f_0) e^{2 \pi k f_0 t} \cdot f_0 \\
+        & = \int_{-\infty}^{\infty} X(f) e^{2 \pi f t i} df
+        \label{eq:fourier:inverse-transform}
+    \end{aligned}
+\end{equation} 
+By definition, this is an integral, the \emph{Fourier integral}. 
+
+We have expressed the signal $x(t)$ as a infinite \emph{continuous} superposition of elementary signals. Every frequency $f$ (varying continuously) will be needed to make up the signal, not just the discrete sampled frequencies $k f_0$. So $X(f)$ is a \emph{complex function} of the \emph{continuous variable} $f$. By taking a similar limit we get
+\begin{equation}
+    \begin{aligned}
+        X(f) & = \lim_{f_0 \to 0} \frac{1}{T_0} \int_{-T_0/2}^{T_0 / 2} x(t) e^{- 2\pi k f_0 t i} dt \\ 
+        & = \int_{-\infty}^{\infty} x(t) e^{- 2 \pi f t i}.
+    \end{aligned}
+    \label{eq:fourier:transform}
+\end{equation}
+
+The same correspondance that existed for periodic signals still exist:
+\begin{equation}
+    x(t) \iff X(f)
+\end{equation}
+so knowing the signal in the \emph{time domain} $x(t)$ or knowing the signal in the \emph{frequency domain} $X(f)$ has the same information content.
+
+Since now decomposing a signal means obtaining a function from another function, we can think of the operation in \cref{eq:fourier:transform} as a \emph{transform}, i.e. an operator that takes a function and suitably transforms it to obtain another function. $X(f)$ is also called the \emph{Fourier transform} $\mathcal{F}\{\cdot\}$ of the signal $x(t)$, from the time domain to the frequency domain. 
+
+For the same reason we can think of obtaining the original signal $x(t)$ from $X(f)$ as an \emph{inverse Fourier transform} $\mathcal{F}^{-1} \{\cdot\}$ of $X(f)$, from the frequency domain to the time domain. 
+
+The equations of \emph{analysis} and \emph{synthesis} now are:
+\begin{equation}
+    x(t) = \underbrace{\mathcal{F}^{-1} \{ X(f) \} = \int_{-\infty}^{\infty} X(f) e^{2 \pi f t i}}_{\mathclap{\text{Inverse Fourier transform}}}, \qquad X(f) = \underbrace{\mathcal{F}\{ x(t) \} = \int_{-\infty}^{\infty} x(t) e^{- 2 \pi f t i}}_{\mathcal{\text{Fourier transform}}}.
+\end{equation}
+\\
+
+\textbf{Note.} Often the Fourier transform of a signal $x(t)$ is also represented as $\hat{x}(f)$, and often also the dependence on the independent variable (in both domains) is omitted:
+\begin{equation}
+    \mathcal{F} \{ x \} = \hat{x}, \qquad \mathcal{F}^{-1} \{ \hat{x} \} = x.
+\end{equation}
+
+
+\section{Properties}
+
+List of properties, without derivation.
+
+\begin{itemize}
+    \item \textbf{Linearity.}\\
+    The Fourier transform is \emph{linear}, meaning
+    \begin{equation}
+        \mathcal{F} \{ \alpha x(t) + \beta y(t) \} = \alpha \mathcal{F} \{ x(t) \} + \beta \mathcal{F} \{ y(t) \}.
+    \end{equation}
+    This property is a direct consequence of the linearity of the integral.
+
+    \item \textbf{Convolution theorem.}\\
+    The Fourier transform \emph{diagonalizes} convolution, meaning that performing the convolution of two signals $x \star y$ in the time domain is equivalent to a simple \emph{multiplication} of the their Fourier transforms in the Fourier domain.
+    By definition of the convolution operator it is:
+    \begin{equation}
+        z(t) = (x \star y)(t) = \int_{-\infty}^{\infty} x(\tau) y(t - \tau) d \tau,
+    \end{equation}
+    but for the convolution theorem, it also is:
+    \begin{equation}
+        \begin{aligned}
+            \hat{z}(f) & = \mathcal{F}\{ z(t) \} = \mathcal{F}\{ (x \star y)(t) \} \\
+            & = \dots \\
+            & = \hat{x}(f) \hat{y}(f).
+        \end{aligned}
+    \end{equation}
+    So, we can perform convolution by transforming the two signals in the Fourier domain, convoluting by a simple multiplication, and then inverse transforming them back to the time domain.
+    \begin{equation}
+        \begin{aligned}
+            (x \star y)(t) & = \mathcal{F}^{-1} \{ \mathcal{F}\{ (x \star y)(t) \} \} \\
+            & = \mathcal{F}^{-1} \{ \hat{x}(f) \hat{y}(f) \}.
+        \end{aligned}
+    \end{equation}
+\end{itemize}

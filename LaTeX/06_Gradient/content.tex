@@ -1,0 +1,17 @@
+%!TEX root = ../root.tex
+
+When dealing with regression, we have seen that not all data distributions are of linear nature, very few actually, and therefore this nonlinearity must be represented by our models. 
+
+More in general, it is very frequent having to deal with a loss function with a gradient in which the model parameters enter in a nonlinear way, like we have seen for logistic regression. We have seen how we have optimality guarantees for a closed-form solution (obtained by setting the gradient to $\vb{0}$) only for convex functions. Although a nonlinear function is not necessarily a non-convex function (for instance quadrics are not), most are. What this means is that we have no closed-form solutions available, but instead must resort to \emph{nonlinear optimization}. 
+
+\section{Introduction} 
+\input{06_Gradient/06.1_intro/content.tex}
+
+\section{Gradient Properties} 
+\input{06_Gradient/06.2_grad-properties/content.tex}
+
+\section{Learning Rate} 
+\input{06_Gradient/06.3_lr/content.tex}
+
+\section{Gradient Descent for Deep Learning: Stochastic Gradient Descent} 
+\input{06_Gradient/06.4_gd-for-dl/content.tex}

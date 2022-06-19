@@ -1,0 +1,63 @@
+%!TEX root=../../root.tex
+
+A partial remedy for the problems above comes from the data itself: the \emph{priors}. A neural network is a blank sheet before it gets fed data to fit, it has no idea how this data is structured or should be structured. Therefore, we look for ``universal'' priors, ideally task-independent to some extent. 
+
+A key insight is that data often carries \emph{structural priors} in terms of repeating patterns, compositionality, locality, self-similarity, that we want to exploit to make it easier for neural networks to accurately represent the domain of interest and perform well at the task at hand.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.19\linewidth}  
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/noise}
+        \end{overpic}
+        \caption{No structure whatsoever, no priors, just noise.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.19\linewidth}    
+        \centering  
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/yokohama}
+        \end{overpic}
+        \caption{We have already discussed some priors of this image.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.19\linewidth}    
+        \centering  
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/puzzle1}
+        \end{overpic}
+        \caption{Real world images are rarely puzzles in disarray like this...}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.19\linewidth}    
+        \centering  
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/puzzle2}
+        \end{overpic}
+        \caption{...but rather exhibit self-similarity and locality properties like this.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.19\linewidth}  
+        \centering
+        \begin{overpic}
+            [trim=0cm 0cm 0cm 0cm,clip,width=\linewidth]{08/protein}
+        \end{overpic}
+        \caption{Proteins are all about structure.}
+    \end{subfigure} 
+    \caption{Examples of \textit{structure}; we want to take advantage of this structure by means of \emph{priors}.}   
+\end{figure}
+
+Let's see some of these priors. 
+
+\clearpage
+\subsection{Self-similarity} 
+\input{08_CNN/08.1_Priors/08.1.1_Self-similarity/content.tex}
+
+\subsection{Translation invariance} 
+\input{08_CNN/08.1_Priors/08.1.2_Translation/content.tex}
+
+\subsection{Other invariances} 
+\input{08_CNN/08.1_Priors/08.1.3_Other/content.tex}
+
+\subsection{Hierarchy and compositionality} 
+\input{08_CNN/08.1_Priors/08.1.4_Compositionality/content.tex}

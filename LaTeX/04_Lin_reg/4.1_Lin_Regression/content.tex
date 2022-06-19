@@ -1,0 +1,83 @@
+%!TEX root = ../../root.tex
+
+The simplest non-trivial case for a learning model is going to be a linear model called \emph{linear regression}.
+
+\begin{figure}[H]
+	\begin{center}
+		\begin{overpic}
+			[trim=0cm 0cm 0cm 0cm,clip,width=0.4\linewidth]{04/linsamples}
+		\end{overpic}\hspace{0.5cm}
+		\begin{overpic}
+			[trim=0cm 0cm 0cm 0cm,clip,width=0.4\linewidth]{04/linfit}
+		\end{overpic}
+	\end{center}
+	\caption{Linear regression problem.}\label{fig:lin-reg}	
+\end{figure}
+
+Given some data points we assume that these data points come from a linear process, \textit{e.g.} 
+\[ 
+	y_i = ax_i + b
+\] 
+(note that this is not the only possible choice) and we want to look for the values of the parameters $a$ and $b$. 
+We have to consider an additive correction, that we call \emph{noise}, since we don't expect the line to fit exactly every datapoint.
+\begin{equation}
+	y_i = ax_i + b + noise
+\end{equation}
+
+In the linear regression setting this is ignored, as fitting the line perfectly to every datapoint would lead us to \emph{overfitting}, i.e. poor \emph{generalization}. We will see these concepts more in depth in the following chapter.
+
+Linear regression has the following properties:
+\begin{itemize}
+	\item it is linear plus a bias $b$ (ignores the noise);
+	\item has parameters $\Theta = \{a, b\}$;
+	\item needs a labeled dataset of $n$ pairs $(x_i, y_i)$, where $x_i$'s are called the regressors.
+\end{itemize}
+So we can write the model as:
+\begin{equation}
+	f_{\Theta}(x_i) = y_i
+\end{equation}
+Once we are given values for $a$ and $b$ we can construct a mapping such that given some new input we can apply the function learned and get some new output.
+
+But who gives us these values? As we have mentioned previously, this is achieved by an optimization process of a proper loss function, so we need to define one.
+Often a loss function encodes some notion of \emph{error}, measuring the distance between the true value $y_i$ from what our $f_{\Theta}$ predicts for the value $x_i$, and we want that difference to be close to $0$. Usually the notion of error that we use for the linear regression setting is the \emph{Mean Squared Error (MSE)}:
+\begin{equation}
+	\epsilon = \min_{a,b \in \mathbb{R}}\frac{1}{n}\sum_{i=1}^{n}\left( y_i - f_{\Theta}(x_i) \right)^2.
+\end{equation}
+
+We are looking for the parameters values that when plugged into the function $f$, give the minimum possible error $\epsilon$. This is a \emph{minimization problem} and we don't care about the minimum value but rather we are interested in the values $\bar{\Theta} = \bar{a}, \bar{b}$ for the parameters (minimizers) that make the error reach that minimum value, so the problem might be formalized as:
+\begin{equation}
+    \Theta^* = \argmin_{a, b \in \mathbb{R}}\frac{1}{n}\sum_{i=1}^{n}\left( y_i - f_{\Theta}(x_i) \right)^2.
+\end{equation}
+As we will see, not all minimization problems have a \emph{closed-form} solution (i.e. admit a formula to obtain $\bar{\Theta}$). However, when $f_{\Theta}$ is linear, the problem becomes a so called \emph{least-square approximation} problem, for which, as we will see, such a closed-form solution does exist.
+
+Note that to look for the minimizer we can ignore the constant factor $1/n$, so we can remove it:
+\begin{equation}
+	\epsilon = \min_{a,b \in \mathbb{R}}\sum_{i=1}^{n}\left( y_i - f_{\Theta}(x_i) \right)^2
+\end{equation}
+The error criterion, as mentioned previously, is also called \emph{loss function}, usually denoted by $\ell_\Theta$:
+\begin{equation}
+	\ell_\Theta \left(\{x_i,y_i\} \right) = \sum_{i=1}^{n}\left( y_i - f_{\Theta}(x_i) \right)^2
+\end{equation}
+so the \emph{MSE} becomes:
+\begin{equation}
+	\epsilon = \min_\Theta \ell_\Theta \left( \{x_i, y_i \}\right)
+\end{equation}
+Remember that the loss is defined on the entire dataset not on just one datapoint.
+
+In summary, we have access to examples $\textbf{x}_i$ and $\textbf{y}_i$, we fix the structure of the function $f$ and we need to solve for the parameters $\Theta$. To solve for $\Theta$, we define a loss function $\ell_\Theta$ that depends on the examples $(\textbf{x}_i, \textbf{y}_i)$ and the parameters, and we minimize it, i.e. we find the parameters $\Theta^*$ that make it minimum.
+
+\begin{figure}[H]
+	\begin{center}
+		\hspace{-1.5cm}
+		\begin{overpic}
+			[trim=0cm 0cm 0cm 0cm,clip,width=0.6\linewidth]{04/nn2}
+			\put(-10,25){ $\mathbf{x}_i \to$}
+			\put(48,25){ $f_{\bm{\Theta}}$}
+			\put(99.5,25){$\to \mathbf{y}_i \to {\color{red}\ell_{{\Theta}}(\mathbf{x}_i,\mathbf{y}_i)}$}
+		\end{overpic}
+	\end{center}
+	\caption{Task of a deep neural network.}\label{fig:nn-task}	
+\end{figure}
+(Note that the $\textbf{x}_i$'s $\textbf{y}_i$'s and the parameters $\Theta$ could be higher dimensional vectors).
+
+In linear regression we fix $f$ to be linear and $\ell$ to be quadratic.

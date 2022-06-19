@@ -1,0 +1,13 @@
+%!TEX root=../../../../root.tex
+
+
+At each \emph{hidden layer} $\ell$ we have:
+\begin{equation}
+    \mathbf{x}_{\ell+1} = \sigma_\ell(  \mathbf{W}_\ell \mathbf{x}_{\ell} )
+\end{equation}
+Each row of the weight matrix is called a \emph{neuron} or \emph{hidden unit}:
+\begin{equation}
+\mathbf{Wx} = \begin{pmatrix} \rule[.5ex]{1.2em}{0.4pt} \hspace{0.1cm} \textrm{unit} \hspace{0.1cm}  \rule[.5ex]{1.2em}{0.4pt} \\ \vdots \\  \rule[.5ex]{1.2em}{0.4pt} \hspace{0.1cm} \textrm{unit} \hspace{0.1cm}  \rule[.5ex]{1.2em}{0.4pt}  \end{pmatrix} \begin{pmatrix}|\\\mathbf{x}\\|\end{pmatrix}.
+\end{equation}
+
+Mathematically, each layer is a vector-to-vector function $\mathbb{R}^p \to \mathbb{R}^q$. Each layer has $q$ units acting \emph{in parallel}, and each unit acts as a scalar function $\mathbb{R}^p\to\mathbb{R}$, computing a certain component of the output vector.

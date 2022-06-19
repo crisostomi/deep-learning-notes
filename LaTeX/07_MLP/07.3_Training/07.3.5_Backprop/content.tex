@@ -1,0 +1,121 @@
+%!TEX root=../../../root.tex
+
+We call \emph{back-propagation} (or \emph{backprop} in short) the reverse mode automatic differentiation applied to deep neural networks. 
+
+Why do we choose reverse-autodiff? We will use what we have seen so far but in the deep learning context.
+
+When training a deep neural network, we are minimizing a loss function with respect to the $p \gg 1$ \emph{weights} (or \emph{parameters}) of the network, represented by a set of matrices 
+\begin{equation}
+    \vb{W} = \{W^{(i)} \in \mathbb{R}^{p_i}, i \in \{1, \dots, t-1\}\}.
+\end{equation}
+
+In particular, the newtwork will be a function
+\begin{equation}
+    \begin{aligned}
+        \vb{f}(\vb{x}; \vb{W}) & = \vb{f}_{t-1} ( \vb{f}_{t-2} ( \cdots ( \vb{f}_2 ( \vb{f}_1(\vb{x}; \vb{W}^{(1)}); \vb{W}^{(2)})); \vb{W}^{(t-2)}); \vb{W}^{(t-1)}) \\
+        \vb{f} & = \vb{f}_{t-1} \circ \vb{f}_{t-2} \circ \cdots \circ \vb{f}_2 \circ \vb{f}_1
+    \end{aligned}
+\end{equation}
+with each function $\vb{f}_i$ in the composition parametrized by $\vb{W}^{(i)}$.
+
+Also, the loss will be some error criterion $\color{cyan}\epsilon$, and inside the loss there will be the network:
+\begin{equation}
+    \ell = {\color{cyan}\epsilon(} \vb{f}_{t-1}\circ \vb{f}_{t-2} \circ \cdots \circ \vb{f}_2 \circ \vb{f}_1 {\color{cyan})}.
+\end{equation}
+
+We have seen that minimizing the loss function requires the computation of its \emph{gradient} $\grad_{\vb{W}} \ell$, and that this computation can be decomposed by the chain rule in the computation of several intermediate derivatives. We have
+\begin{equation}
+    \begin{aligned}
+        \grad_{\vb{W}} \ell & = \grad \epsilon ~ \vb{J}_{\vb{W}} (\vb{f}_{t-1}\circ \vb{f}_{t-2} \circ \cdots \circ \vb{f}_2 \circ \vb{f}_1) \\
+        & = \grad \epsilon ~ \vb{J}_{t-1} \vb{J}_{t-2} \dots \vb{J}_2 \vb{J}_1
+    \end{aligned}
+    \label{eq:07:3:5:grad}
+\end{equation}
+in which we denote by $\mathbf{J}_k$ the Jacobian at layer $k$. In the following we will neglect $\grad \epsilon$ since as we have seen the complexity lies in the function composition.
+
+Now, recall our previous analysis on the complexity of the two autodiff procedures, and that the loss function is a function:
+\begin{equation}
+    \ell : \mathbb{R}^{\color{red}p} \to \mathbb{R}^{\color{darkgreen} 1}
+\end{equation}
+with $p = p_1 + \dots + p_{t-1}$.
+\begin{itemize}
+    \item {\color{red}Forward-mode} autodiff scales linearly with the dimension of the domain of the function, ${\color{red}p}$ in this case.
+
+    \item {\color{darkgreen}Reverse-mode} autodiff instead scales linearly with the dimension of the codomain of the function, ${\color{darkgreen} 1}$ (!) in this case. 
+\end{itemize}
+So, as $p$ can be in the order of millions, the latter approach is the way to go.
+
+% What we mean by computing $\grad_{\vb{W}} \ell$ is actually computing $\grad_{\vb{W^{(1)}}} \ell, \grad_{\vb{W^{(2)}}} \ell, \dots, \grad_{\vb{W^{(t-1)}}} \ell$, since these will be the terms needed to update each weight during gradient descent. 
+
+% In fact, in \cref{eq:07:3:5:grad} we are actually computing $\grad_{\vb{W^{(1)}}} \ell$, since $\vb{f}_1$ is the only node that depends on $\vb{W^{(1)}}$, and when traversed the others produced only an intermediate Jacobian. If we were indeed computing $\grad_{\vb{W}} \ell$, then each layer $\vb{f}_{i}$ would have a ``double'' dependence on $\vb{W}$ (via its weights $\vb{W}^{(i)}$ and via the earlier layers of the networks, that depend on their weights). In this case, the correct application of the chain rule would be 
+% \begin{equation}
+%     \begin{aligned}
+%          \vb{J}_{\vb{W}} \left[ \vb{f}_{t-1} \circ \dots \circ \vb{f}_1 \right] & = \pdv{\vb{f}_{t-1}}{\vb{W}^{(t-1)}} \pdv{\vb{W}^{(t-1)}}{\vb{W}} + \pdv{\vb{f}_{t-1}}{\vb{f}_{t-2} \circ \dots \circ \vb{f}_1} \pdv{\vb{f}_{t-2} \circ \dots \circ \vb{f}_1}{\vb{W}} \\
+%         & = \underbrace{\vb{J}_{\vb{W}^{(t-1)}} [\vb{f}_{t-1}] \mqty[ 
+%             \horzbar & \vb{0} & \horzbar \\
+%             \horzbar & \vb{0} & \horzbar \\
+%                 & \vdots &  \\
+%             & \vb{I}_{p_{t-1} \times p_{t-1}}
+%         ]}_{\mathclap{\vb{f}_{t-1} \text{ only depends on } \vb{W}^{(t-1)}}} + \underbrace{\pdv{f_{t-1}}{\vb{f}_{t-2} \circ \dots \circ \vb{f}_1} \vb{J}_{\vb{W}} \left[ \vb{f}_{t-2} \circ \dots \circ \vb{f}_1 \right]}_{\mathclap{\text{chain rule}}} 
+%     \end{aligned}
+% \end{equation}
+% The first term is the direct dependence of $\vb{f}_{t-1}$ on the weights $\vb{W}$ via its own weights $\vb{W}^{(t-1)}$; the second term is the indirect dependence on the other weights via the earlier layers of the network, whose output is fed to $\vb{f}_{t-1}$ and hence there is the dependence.
+
+
+% In practice, during backpropagation, when we are at the $i$-th layer, we first compute $\grad_{\vb{W}^{(i)}} \ell$ and then accumulate the proper contribution from the layer to compute the gradients of the earlier layers of the network wrt to their weights. See the algorithms below.
+
+% \IncMargin{1em}
+% \begin{algorithm}[ht]
+%     \SetAlgoLined
+%     \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead 
+%     \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+    
+%     \Input{Network depth, $l$}
+%     \Input{$\vb{W}^{(i)}, i \in \{1, \dots, l\}$, the weight matrices of the model}
+%     \Input{Activation function, $\sigma(\cdot)$}
+%     \Input{$\vb{x}$, the input to process}
+%     \Input{$\vb{y}$, the target output}
+%     \Input{$\ell_{\vb{W}} (\cdot, \cdot)$, the loss function}
+%     \Output{$\ell$, evaluation of the loss function}
+    
+%     \BlankLine
+    
+%     $\vb{h}^{(0)} = x$\;
+%     \For{$k = 1, \dots, l$}{
+%         $\vb{a}^{(k)} = \vb{W}^{(k)} \vb{h}^{(k-1)}$\;
+%         $\vb{h}^{(k)} = \sigma(\vb{a}^{(k)})$\;
+%     }
+%     $\vb{\hat{y}} = \vb{h}^{(l)}$\;
+%     $\ell = \ell_{\vb{W}}(\vb{\hat{y}}, \vb{y})$
+    
+%     \caption{Forward pass of backpropagation through a typical deep neural network.}
+% \end{algorithm}
+% \DecMargin{1em}
+
+% \IncMargin{1em}
+% \begin{algorithm}[h]
+%     \SetAlgoLined
+%     \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead 
+%     \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+    
+%     \Input{Network depth, $l$}
+%     \Input{$\vb{W}^{(i)}, i \in \{1, \dots, l\}$, the weight matrices of the model}
+%     \Input{Activation function, $\sigma(\cdot)$}
+%     \Input{$\ell$, evaluation of the loss function}
+%     \Output{$\grad_{\vb{W}^{(i)}}, i \in \{1, \dots, l\}$, evaluation of the gradients for each weight matrix}
+    
+%     \BlankLine
+    
+%     \tcp{After the forward computation, compute the gradient on the output layer}
+%     $\vb{g} \gets \grad_{\vb{\hat{y}}} \ell$\;
+%     \For{$k = l, l-1, \dots, 1$}{
+%         \tcp{Chain rule for the activation function}
+%         $\vb{g} \gets \grad_{\vb{a}^{(k)}} \ell = \vb{g} \pdv{\sigma}{\vb{a}^{(k)}} (\vb{a}^{(k)})$\;
+%         \tcp{Compute gradients on weights}
+%         $\grad_{\vb{W}^{(k)}} \ell = \vb{g} (\vb{h}^{(k-1)})^{\top}$\;
+%         \tcp{Propagate the gradients wrt the next lower-level hidden layer's activations}
+%         $\vb{g} \gets \grad_{\vb{h}^{(k-1)}} \ell = (\vb{W}^{(k)})^{\top} \vb{g}$\;
+%     }
+%     \caption{Backward pass of backpropagation through a typical deep neural network.}
+% \end{algorithm}
+% \DecMargin{1em}

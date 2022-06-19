@@ -1,0 +1,34 @@
+%!TEX root = ../root.tex
+
+A \emph{generative} model is a statistical model of a \emph{distribution} of some data, namely of the \emph{probabilistic process} that produced the data. 
+
+Generative models learn a distribution from some given training samples and therefore are able to \emph{generate} new samples from the learnt distribution. The quality of the generation will depend on how well the learnt distribution approximates the real one.
+
+\emph{Deep} generative models are the combination of generative models and deep neural networks.
+
+\paragraph{Dimensionality reduction}
+
+\emph{Dimensionality reduction} is the name for a class of techniques and models that transform data from a high-dimensional space into a low-dimensional space, so that the low-dimensional representation (hopefully) retains most of the meaningful properties of the original data.
+
+For this to be possible, a model must learn how to \emph{generate} data from a lower-dimensional distribution that is as close as possible to the input higher-dimensional distribution; therefore, it can be regarded as a generative model.
+
+Formally the task of dimensionality reduction is defined as follows.
+
+Given $n$ datapoints stored as columns of a matrix $\mathbf{X} \in \mathbb{R}^{d \times n}$ we want a similar representation of the matrix $\mathbf{X}$ with smaller dimension:
+\begin{equation}
+	\mathbf{X}^\top = \left( \begin{smallmatrix}-&\mathbf{x}_1^\top&-  \\ & \vdots & \\ -&\mathbf{x}_n^\top &-\end{smallmatrix} \right) \approx \left( \begin{smallmatrix}-&\tilde{\mathbf{x}}_1^\top&-  \\ & \vdots & \\ -&\tilde{\mathbf{x}}_n^\top &-\end{smallmatrix} \right) = \tilde{\mathbf{X}}^\top
+\end{equation}
+where $\tilde{\mathbf{X}}\in \mathbb{R}^{k \times n}$ with $k \ll d$.
+
+Dimensionality reduction finds many uses, such as:
+\begin{itemize}
+	\item Visualization: visualizing higher dimensional data (e.g. 3D, with $d = 3$) in the plane ($k = 2$).
+	\item Denoising and outlier detection: these can be seen as useless additional information.
+\end{itemize}
+
+\section{Principal component analysis} 
+\input{11_Generative/11.1_PCA/content.tex}
+\section{Autoencoders} 
+\input{11_Generative/11.2_Autoencoders/content.tex}
+\section{Variational Autoencoders (VAE)}
+\input{11_Generative/11.3_VAE/content.tex}

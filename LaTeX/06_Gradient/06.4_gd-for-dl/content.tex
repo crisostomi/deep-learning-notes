@@ -1,0 +1,125 @@
+%!TEX root = ../../root.tex
+
+So far we have been very focused on the properties of gradient descent, more from an optimization perspective than from a deep learning one. Indeed, if we think about it, we don't really seek the global minimum of a loss function, because that would mean a perfect fit to the data, \textit{i.e.} overfitting and loss of generalization power of the model. So, even though gradient descent brings forth no optimality guarantee, as deep learning practitioners this is not trouble for us, and we are happy to apply it to nonconvex problems, like optimization of a multi-layer perceptron that we will see later. 
+Actually gradient descent is often applied to solve even convex problems, like the optimization of the logistic regression, from which we started, having no closed form solution, or even linear regression, for which we do have a closed form solution. Recall however that this solution involves the inversion of a (potentially very big) matrix, something that is not efficient (while on the other hand gradient descent is an iterative algorithm having low cost for each step) and can be affected by numerical stability / bad conditioning issues.
+
+To recap, in the deep learning setting the gradient descent algorithm is all about the following update rule:
+\begin{equation}
+    \vb*{\Theta}^{(t+1)} \gets \vb*{\Theta}^{(t)} - \alpha \gradient_{\vb*{\Theta}^{(t)}} \ell(\vb{y}, \vb{f}_{\vb*{\Theta}}(\vb{X}))
+\end{equation}
+where $\vb*{\Theta}$ is the vector of all the model parameters, $\alpha$ is the learning rate, $\ell$ is the loss function, evaluated on the true output vector $\vb{y}$ and the predicted output vector
+\begin{equation*}
+    \vb{f}_{\vb*{\Theta}}(\vb{X}) = \mqty( \vb{f}_{\vb*{\Theta}}(\vb{x}_1) & \dots & 
+    \vb{f}_{\vb*{\Theta}}(\vb{x}_n) )^{\top}.
+\end{equation*}
+So, each parameter gets updated so as to decrease the loss:
+\begin{equation}
+    \bm{\Theta}_i \leftarrow  \bm{\Theta}_i - \alpha \frac{\partial \ell}{\partial \bm{\Theta}_i}.
+\end{equation}
+
+However, in this setting we have to deal with practical problems that the well defined mathematical solutions do not care for. Some of these are:
+\begin{itemize}
+    \item The model might have millions of parameters, hence making the update rule computationally intensive;
+    \item The loss function $\ell$ can be non-convex and also non-differentiable in some cases, so in principle one could not even begin to apply gradient descent;
+    \item Even if all is set correctly, one might encur in numerical instability issues, leading to phenomena like exploding / vanishing gradients.
+\end{itemize}
+
+In fact, gradient descent in its standard form is actually \emph{impractical}. Recall that the loss is usually defined over $n$ training examples:
+\begin{equation}
+    \ell_\Theta ( \{ x_i, y_i\}) = \frac{1}{n}\sum_{i=1}^n \hat{\ell}_\Theta  ( \{ x_i, y_i\})
+\end{equation}
+in which for instance $\hat{\ell}$ may be a term of the mean squared error loss function $(y_i - f_\Theta(x_i))^2$. This requires computing the gradient for each term in the summation:
+\begin{equation}
+\nabla \ell_\Theta ( \{ x_i, y_i\}) = \frac{1}{n}\sum_{i=1}^n \nabla \hat{\ell}_\Theta  ( \{ x_i, y_i\}).
+\end{equation}
+
+Two bottlenecks make gradient descent impractical: the number of examples $n$ and the number $d$ of parameters, \textit{i.e.} the size of the parameter vector $\vb*{\Theta}$.
+
+We can attempt to reduce one of the two bottlenecks: the number of examples. Of course, data is precious to us, so we do not want to simply discard data. Instead, we ``sacrifice the gradient'' of the loss function, meaning we do not compute an exact gradient but rather an estimate of it, introducing the concept of \emph{batch}.
+
+Suppose that we have a training set $\mathcal{T} = \{ \vb{x}_i, y_i \}$, then the exact gradient of the loss function would be
+\[ 
+    \nabla \ell_\Theta ( \mathcal{T}) = \frac{1}{n}\sum_{i=1}^n \nabla \hat{\ell}_\Theta  ( \mathcal{T}) .
+\]
+
+Instead, we compute $\nabla \ell_{\vb*{\Theta}}$ only for a small representative subset of $m \ll n$ examples, that we call a mini-batch $\mathcal{B}$:
+\begin{equation}
+    \frac{1}{m}\sum_{i=1}^m \nabla\hat{\ell}_\Theta(\mathcal{B}) \approx \frac{1}{n}\sum_{i=1}^n \nabla \hat{\ell}_\Theta  ( \mathcal{T})
+\end{equation}
+
+The mini-batch $\mathcal{B}\subset\mathcal{T}$ is a subset of the training data drawn uniformly, so at each learning step the algorithm uses a different minibatch, eventually covering all the training data. The true gradient $\nabla\ell_\Theta$ is approximated, but with a significant \emph{speed-up}. 
+
+This is \emph{Stochastic Gradient Descent} (SGD), which is outlined as follows:
+\begin{enumerate}
+    \item Initialize $\bm{\Theta}$;
+    
+    \item Pick a mini-batch $\mathcal{B}$;
+    
+    \item Update with the downhill step (use momentum if desired):
+    \[  \bm{\Theta} \leftarrow  \bm{\Theta} - \alpha \nabla \ell_{\bm{\Theta}} (\mathcal{B}); \]
+    
+    \item Go back to step (2).
+\end{enumerate}
+When steps (2)-(4) cover the entire training set $\mathcal{T}$, we say that the algorithm has performed an \emph{epoch}. Like gradient descent, the algorithm proceeds for many epochs. The update rule has now constant computational cost (as a function of the fixed size $m$ of the mini-batch), regardless of the size of the training set $\mathcal{T}$.
+
+What is the price of this decreased computational cost? 
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=0.8\linewidth]{06/sgd2}
+    \end{overpic}
+    \caption{Empirical observation of oscillatory behavior at convergence.}
+\end{figure}
+
+Empirically we see that the random sampling that drives the gradient estimation induces oscillations, that make so that SGD does not stop at the minimum. In fact, at each step SGD sees a ``different'' loss function, one that takes into account the mini-batch only, that does not necessarily have a minimum in that point.
+
+Furthermore, analytically we can see that gradient descent enjoys better convergence rates than stochastic gradient descent. Let's restrict ourselves to convex problems for simplicity. Let 
+\[
+    \ell(f_{\Theta}) = \frac{1}{n}\sum_{i=1}^n \hat{\ell}  ( f_\Theta) = \frac{1}{n}\sum_{i=1}^n \hat{\ell}  ( \{ f_\Theta(x_i), y_i\})  
+\] 
+be the loss function of the learning problem, which we approach with a parametric model $f_{\Theta}$. For these problems there is a true minimizer 
+\begin{equation}
+    f^\ast = \arg\min_f \ell(f)
+\end{equation}
+and so we consider the inequality
+\begin{equation}
+    | \hspace{-0.1cm} \underbrace{\ell(f_\Theta)}_{{\textrm{GD/SGD}}} - \underbrace{\ell(f^\ast)}_{{\textrm{true}}} | < \hspace{-0.2cm} \underbrace{{\rho}}_{\textrm{accuracy}}
+\end{equation}
+which tells us how far off is our model compared to the true minimizer. $\rho$ is an \emph{accuracy} measure that we establish, meaning that once the equality holds, we stop the algorithm since we have reached the desired accuracy. This reasoning produces asymptotic upper bounds on the evolution of the two algorithms:
+\begin{center}
+    \begin{tabular}{ |c|c|c| } 
+     \hline
+     &\footnotesize\textbf{cost per iteration} & \footnotesize \textbf{iterations to reach $\rho$} \\ 
+     \hline
+    GD & $O({\color{red}n}{\color{darkgreen}d})$ & $O({\color{cyan}\kappa} \log \frac{1}{\rho})$ \\ 
+     SGD & $O({\color{darkgreen}d})$ & $\frac{{\color{cyan}\nu \kappa^2}}{\rho} + o(\frac{1}{\rho})$ \\
+     \hline
+    \end{tabular}
+\end{center}
+where
+\begin{itemize}
+    \item ${\color{red}n}$ is the number of training examples;
+
+    \item ${\color{darkgreen}d}$ is the number of parameters;
+    
+    \item ${\color{cyan}\kappa,\nu}$ are constants related to the conditioning of the problem, we do not need to worry about them, just know that they are constants.
+\end{itemize}
+
+We see that SGD has indeed slower asymptotic convergence, but it has been argued that for machine learning tasks faster convergence presumably corresponds to overfitting, and therefore it is not worthwile to seek convergence faster than $O(\frac{1}{\rho})$. Furthermore, SGD does not depend on the number of examples, implying \emph{better generalization}. Going back to the convergence speed point of view, the asymptotic analysis obscures many advantages that stochastic gradient descent has after a small number of steps. With large datasets, the ability of SGD to make rapid initial progress while evaluating the gradient for only very few examples outweighs its slow asymptotic convergence. 
+
+Here we list some final practical considerations about SGD:
+\begin{itemize}
+
+    \item It needs the training data to be \emph{shuffled} to avoid data bias, something that would invalid the approximation, i.e.
+    \[
+        \frac{1}{m}\sum_{i=1}^m \nabla\hat{\ell}_\Theta(\mathcal{B}) ~~ \bm{\cancel{\approx}} ~~ \frac{1}{n}\sum_{i=1}^n \nabla \hat{\ell}_\Theta  ( \mathcal{T}).
+    \]
+    
+    \item Each mini-batch can be processed in \emph{parallel}, something that goes well with the increased availability and power of parallel architectures like GPGPU (General Purpose Graphic Processing Unit), more and more used for deep learning tasks. In this case, the batch size is limited by hardware and the size of the specific representation of the data in memory.
+    
+    \item Small mini-batches can offer a \emph{regularizing} effect, by introducing variance in the estimation of the gradients, that prevents the algorithm from reaching the true minimum and thus from overfitting. On the other hand, very small batches introduce too high of a variance (in the limit, online learning, using only one data point at a time), and it is necessary to use a small (even better if decaying) learning rate to maintain stability.
+    
+\end{itemize}
+    
+To wrap up all the previous considerations, we can say that SGD can find a \textit{low value} of the loss function quickly enough to be useful, even if it's not a minimum.

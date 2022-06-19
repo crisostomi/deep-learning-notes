@@ -1,0 +1,36 @@
+%!TEX root=../../../../root.tex
+
+Adding a linear layer at the output:
+
+\begin{equation}
+    \begin{aligned}
+        \mathbf{y}& = f \circ (\sigma \circ f) \circ \cdots \circ (\sigma \circ  f) (\mathbf{x}) \\    
+        & = f \circ \sigma(\cdots) (\mathbf{x}) 
+    \end{aligned}
+\end{equation}
+expresses $\mathbf{y}$ as a linear combination of ``ridge functions'' $\sigma(\cdot)$. \emph{ReLU} $\sigma(x) = \max\{0, x\}$ is a piecewise-linear function, as can be seen in \cref{fig:07:2:2:4:act_funcs}.
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+    [trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{07/relu}
+    \end{overpic}
+    \caption{Activation functions.}
+    \label{fig:07:2:2:4:act_funcs}
+\end{figure}
+
+If we linearly combine multiple piecewise-linear function, we get a function which is still piecewise-linear. The result of the composition of linear functions with ReLU as activactions is called \emph{Deep ReLU network}.
+
+For a 2-layer network taking 2-dimensional input and returning a scalar with \emph{ReLU} as activation we can see that the resulting surface is piecewise-linear.
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+    [trim=0cm 0cm 0cm 0cm,clip,width=0.7\linewidth]{07/deeprelu}
+    \end{overpic}
+    \caption{Landscape of the function for a 2-layer deep ReLU network. Best viewed in color.}
+\end{figure}
+
+The blue and red edges are produced by the {\color{blue}first} and {\color{red}second} layer.
+
+The class of functions that can be represented with deep ReLU networks is thus the class of piecewise-linear functions.

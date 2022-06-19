@@ -1,0 +1,81 @@
+%!TEX root=../../root.tex
+
+A \emph{linear map} from $V$ to $W$ is a function $T:V\to W$ with the properties:
+\begin{itemize}
+\item \textbf{additivity}: $T(u+v) = Tu + Tv$ for all $u,v\in V$
+\item \textbf{homogeneity}: $T(\lambda v) = \lambda (Tv)$ for all $\lambda \in\mathbb{R}$ and all $v\in V$
+\end{itemize}
+
+\textbf{Examples:}
+
+\begin{itemize}
+\item  identity $I:V\to V$, defined as $Iv = v$ 
+\item differentiation $D: \mathcal{F}(\mathbb{R})\to  \mathcal{F}(\mathbb{R})$, defined as $Df = f'$
+\item integration $T: \mathcal{F}(\mathbb{R}) \to \mathbb{R}$, defined as $Tf = \int_0^1 f(x) dx$
+\item from $\mathbb{R}^3$ to $\mathbb{R}^2$, defined as \[T(x,y,z) = (2x-y+3z, 7x+5y-6z)\]
+\item from $\mathbb{R}^n$ to $\mathbb{R}^m$, defined as \[T(x_1,\dots,x_n) = (A_{1,1}x_1 + \cdots + A_{1,n}x_n, \dots, A_{m,1}x_1 + \cdots + A_{m,n} x_n)\]
+\item equation of a line
+\[
+y = ax + b
+\]
+\item equations such as the following, note that this is linear with respect to $sin(x)$
+%
+\[
+y = z\sin(x) + z^2\sin(x)
+\]
+\item \emph{Reflection} operation on an image:
+%
+\[
+T : \mathbb{R}^2 \to \mathbb{R}^2\,,\quad T(x,y) = (-x,y)
+\]
+\end{itemize}
+
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.25\linewidth]{03/molecule}
+		\put(113,33){$\Rightarrow$}
+		\end{overpic}\hspace{1cm}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.25\linewidth]{03/molecule_lr}
+		\end{overpic}
+\end{center}
+
+Linear maps $T:V\to W$ form a \emph{vector space}, with addition and multiplication defined as:
+%
+\begin{align*}
+(S+T)(v) &= Sv + Tv\\
+(\lambda T)(v) &= \lambda (Tv)
+\end{align*}
+%
+
+{
+In addition, we also have a useful definition of \emph{product} between linear maps. This is kind of a special situation, since multiplying vectors doesn't necessarily make sense in general. 
+}
+
+{
+If $T:U\to {\color{red}V}$ and $S:{\color{red}V} \to W$, their product $ST:U \to W$ is defined by
+%
+\[
+(ST)(u) = S(Tu)
+\]
+%
+In other words, $ST$ is just the usual composition $S\circ T$ of two functions
+}
+
+
+\begin{itemize}
+\item \textbf{associativity}: $(T_1 T_2)T_3 = T_1 (T_2 T_3)$
+
+\item \textbf{identity}: $TI = IT = T$
+
+\item \textbf{distributive properties}: $(S_1+S_2)T = S_1 T + S_2 T$ and $S(T_1 + T_2) = S T_1 + ST_2$
+\end{itemize}
+
+{
+Keep in mind that composition of linear maps \emph{is not commutative}, i.e. \[ST\neq TS\] in general (although there are special cases).
+
+\textbf{Example:} Take $Sf = f'$ and $(Tf)(x) = x^2 f(x)$.
+}
+
+\subsection{Matrices} 
+\input{A_Lin_alg/3.2_Linear_maps/3.2.1_Matrices/content.tex}

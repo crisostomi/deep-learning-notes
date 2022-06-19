@@ -1,0 +1,21 @@
+%!TEX root=../../../../root.tex
+
+
+Convolution is \emph{shift-equivariant}
+\begin{equation}
+    f(x-x_0) \star g(x) = (f\star g)(x-x_0).
+\end{equation}
+
+What this means is that if you apply convolution with a certain kernel to two identical entities, one shifted and the other one not shifted, you get the same feature maps, but one is shifted and the other one is not. In fact, equivariance is a \emph{defining property} of convolutions, meaning an operator that has this property can be shown to behave like a convolution. This is good news, since it seems like convolutions are built to support one of the priors we identified.
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+        [trim=0cm 0cm 0cm 0cm,clip,width=0.6\linewidth]{08/equiv}
+            \put(45,69){$\color{red}\stackrel{\textrm{shift}}{\Rightarrow}$}
+                    \put(14,42){$\color{blue}\stackrel{\textrm{convolve}}{\Downarrow}$}
+                            \put(45,15){$\color{blue}\stackrel{\textrm{shift}}{\Rightarrow}$}
+                                            \put(70,42){$\color{red}\stackrel{\textrm{convolve}}{\Downarrow}$}
+    \end{overpic}
+    \caption{Convolution can be applied to images, as we will see shortly, and exhibits shift-equivariance.}
+\end{figure}

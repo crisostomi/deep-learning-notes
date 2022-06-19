@@ -1,0 +1,160 @@
+%!TEX root=./root.tex
+
+\newcommand{\resaltar}[1]{{\color{darkblue}#1}}
+\newcommand{\redaltar}[1]{{\color{darkred}#1}}
+\newcommand{\regaltar}[1]{{\color{darkgreen}#1}}
+
+\def\Circlearrowleft{\ensuremath{%
+  \rotatebox[origin=c]{180}{$\circlearrowleft$}}}
+\def\Circlearrowright{\ensuremath{%
+  \rotatebox[origin=c]{180}{$\circlearrowright$}}}
+\def\CircleArrowleft{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowleft$}}}}
+\def\CircleArrowright{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowright$}}}}
+
+ \newcommand\shorteq{\mkern1.5mu{=}\mkern1.5mu}
+ \newcommand\shorttimes{\mkern1.5mu{\times}\mkern1.5mu}
+
+ 
+\newcommand*{\vertbar}{\rule[0.0ex]{0.5pt}{2.5ex}}
+\newcommand*{\horzbar}{\rule[0.5ex]{2.5ex}{0.5pt}}
+
+% % === CUSTOM TITLE
+% \makeatletter
+% \renewcommand*{\maketitle}{%
+% \begin{titlepage}
+%     \begin{center}
+%         {\huge\bfseries\@title\unskip\strut\par}
+%         \vspace{0.5cm}
+%         {\Large\itshape\@author\unskip\strut\par}
+%         \vspace{0.5cm}
+%         {\large\@date\par}
+%         \vfill
+%         {\includegraphics[width=0.5\linewidth]{figures/sapienza_logo.png}\par}
+%         \vfill
+%         {\Large\itshape{A.Y. 2019/2020}\unskip\strut\par}
+%     \end{center}
+% \end{titlepage}
+% }
+% \makeatother
+
+\newcommand{\inner}[2]{
+    \langle #1, #2 \rangle
+}
+
+\newcommand{\partfrac}[2]{\frac{\partial #1}{\partial #2}}
+
+% variable for the counter to make it work both for chapters and sections
+\newcommand{\counterVariable}{chapter}
+\makeatletter
+\@ifundefined{chapter}{%
+    \renewcommand{\counterVariable}{section}
+}
+\makeatother
+
+
+% theorems etc
+\newmdtheoremenv{unboxedthm}{Theorem}[\counterVariable]
+\newenvironment{thm}{
+    \begin{unboxedthm}
+}
+{
+    \end{unboxedthm}
+}
+
+\newtheorem{lem}{Lemma}[\counterVariable]
+\newtheorem{claim}{Claim}[\counterVariable]
+\newtheorem{cor}{Corollary}[\counterVariable]
+\newtheorem{prop}{Proposition}[\counterVariable]
+\newtheorem{prob}{Problem}[\counterVariable]
+\newtheorem{track}{Track}[\counterVariable]
+\newtheorem*{track*}{Track}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[\counterVariable]
+% === EXAMPLES
+%% set the counter for your environment
+\newcounter{example}
+\renewcommand{\theexample}{\the\counterVariable.\arabic{example}}
+\counterwithin{example}{\counterVariable}
+
+%% define the style
+\mdfdefinestyle{example}{%
+    backgroundcolor=gray!10,
+    linecolor=gray,
+    outerlinewidth=1pt,
+    roundcorner=1mm,
+    skipabove=\baselineskip,
+    skipbelow=\baselineskip,
+    frametitle=\mbox{},
+}
+
+%% setup the environments
+%%% with number
+\newmdenv[%
+    style=example,
+    settings={\global\refstepcounter{example}},
+    frametitlefont={\bfseries Example~\theexample\quad},
+]{example}
+%%% without number (starred version)
+\newmdenv[%
+    style=example,
+    frametitlefont={\bfseries Example~\quad},
+]{example*}
+
+% === PROBLEMS
+%% set the counter for your environment
+\newcounter{problem}
+\renewcommand{\theproblem}{\the\counterVariable.\arabic{problem}}
+\counterwithin{problem}{\counterVariable}
+
+%% define the style
+\mdfdefinestyle{problem}{%
+    backgroundcolor=red!10,
+    linecolor=gray,
+    outerlinewidth=1pt,
+    roundcorner=1mm,
+    skipabove=\baselineskip,
+    skipbelow=\baselineskip,
+    frametitle=\mbox{},
+}
+
+%% setup the environments
+%%% with number
+\newmdenv[%
+    style=problem,
+    settings={\global\refstepcounter{problem}},
+    frametitlefont={\bfseries Problem~\theproblem\quad},
+]{problem}
+%%% without number (starred version)
+\newmdenv[%
+    style=problem,
+    frametitlefont={\bfseries Problem~\quad},
+]{problem*}
+
+\theoremstyle{remark}
+\newtheorem{obs}{Observation}[\counterVariable]
+
+\crefname{thm}{Theorem}{Theorems}
+\crefname{thm}{Theorem}{Theorems}
+\crefname{track}{Exercise}{Exercises}
+\crefname{unboxedthm}{Theorem}{Theorems}
+\crefname{claim}{Claim}{Claims}
+\crefname{lem}{Lemma}{Lemmas}
+\crefname{ex}{Example}{Examples}
+\crefname{obs}{Observation}{Observations}
+\crefname{cor}{Corollary}{Corollaries}
+\crefname{defn}{Definition}{Definitions}
+\crefname{prop}{Proposition}{Propositions}
+\crefname{prob}{Problem}{Problems}
+
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+
+% math operators
+\DeclareMathOperator{\EX}{\mathbb{E}}% expected value
+\DeclareMathOperator*{\argmin}{\operatorname{argmin}}
+\DeclareMathOperator*{\argmax}{\operatorname{argmax}}
+\DeclareMathOperator*{\avg}{avg}
+\usepackage{amsfonts}
+\DeclareMathSymbol{\shortminus}{\mathbin}{AMSa}{"39}

@@ -1,0 +1,22 @@
+%!TEX root=../../root.tex
+
+In deep learning, we deal with \emph{highly parametrized models} called \emph{deep neural networks}, like the one we can see below.
+
+\begin{center}
+		\begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{07/nn1}
+		\end{overpic}
+\end{center}%
+
+Each block has a predefined structure (e.g., a \emph{linear map}) and is defined in terms of \emph{unknown parameters} $\theta$. Finding the values for the parameters is called \emph{training}, and this is done by minimizing a function called \emph{loss} function. As we have seen in the previous chapter, usually this process requires nonlinear optimization through an iterative procedure like \emph{stochastic gradient descent}, that requires computing gradients, so we need a way to compute these efficiently.
+
+Moreover, many interesting phenomena are \emph{highly nonlinear}. Our task is to choose a good learning model which is nonlinear enough to capture these phenomena, keeping in mind that a powerful model should be as \emph{universal} as possible, e.g. it should be able to represent the widest possible class of functions.
+
+The general recipe is always the following:
+
+\begin{itemize}
+\item \emph{Fix} the general form for the parametric model.
+\item \emph{Optimize} for the parameters.
+\end{itemize}
+
+It is worth noting that the model should also be easy to work with.

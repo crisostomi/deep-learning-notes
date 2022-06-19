@@ -1,0 +1,11 @@
+%!TEX root = ../../../root.tex
+
+A line search is not the only way through which we can define a value for $\alpha$. In fact, the learning rate can be \emph{adaptive} or follow a \emph{schedule}, so having it update each learning step along with the parameters.
+
+For instance, one could have one of the following schedules
+\begin{itemize}
+	\item $\alpha^{(t+1)} = \left(1-\frac{t}{{\color{red}\rho}} \right)\alpha^{(0)} + \frac{t}{{\color{red}\rho}} \alpha^{({\color{red}\rho})}$, 
+	\item $\alpha^{(t+1)} = \frac{\alpha^{(t)}}{1+ {\color{red}\rho} t}$, or
+	\item $\alpha^{(t+1)} =  \alpha^{(0)}e^{-{\color{red}\rho} t}$
+\end{itemize}
+in which ${\color{red}\rho}$ is a \emph{decay} parameter. This is motivated by the idea that initially we need large steps to swiftly progress in the general direction of the minimum. Later on, once we get closer and closer to the point, we need smaller steps to reach convergence. Of course, the decay parameter can enter the update law for $\alpha$ in many ways: balancing a linear interpolation over time between an initial value $\alpha^{(0)}$ and a final value $\alpha^{(\rho)}$, or monotonically decreasing $\alpha$ over time, in a linear way or even an exponential way. Needless to say, there is no ``best recipe'' here, one approach may (or may not) work better than another depending on the specific setting under consideration.

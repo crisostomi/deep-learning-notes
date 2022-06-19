@@ -1,0 +1,115 @@
+%!TEX root = ../root.tex
+\paragraph{Sequential data}
+
+In general, we want to be able to deal with \emph{sequential data}.
+A classical example of sequential data is just a 1D sequence of numbers, which we can also call a time series.
+A prototypical task is to predict the next numbers in the sequence.
+For instance, we see in the figure how the value for the stocks of some kind changes with respect to time. In this case, the next number would tell us whether it is convenient or not to invest in that company. 
+Sequential data may also be $n$-dimensional: consider for example a particle moving in a 3D space.
+As seen in (FIG), sequential data may also take the form of a sequence of 3D shapes, as in the case of shape motion. A task could then be for example to classify the entire sequence as an action, e.g. running.
+The most notable example of sequential data is text, where we deal with a sequence of symbols. In this case, the granularity of the symbol is a design choice, as one may consider individual words, characters or something else. A prototypical task in this case would be for example language translation. Note that the two languages may have different dictionaries of symbols, so we want no restrictions on this aspect.
+
+Unfortunately, the DL toolset that we have seen until now does not apply directly to this new kind of data.
+
+\paragraph{Sequence-to-sequence model}
+The main problem is that we want to be able to deal with sequences of \emph{different lengths}. In particular, we want to use our trained model over sequences of lengths that were not known during training.
+If the output is also a sequence, we will say the model is a sequence-to-sequence model.
+(FIG) for example can't deal with sequences of different lengths, as the size of the FC depends directly on the input. 
+(FIG) instead works with any sequence length, as there is one MLP for each temporal dimension of the input. Nevertheless, this is not an advisable choice for an architecture as we would like the temporal information to propagate in time.
+In general, we want to allow both input and output with different lengths.
+
+\paragraph{Causal vs non-causal}
+Consider the sequence-to-sequence model in (FIG), we see that the output at temporal dimension $3$ only depends on the input at the previous points in time. Any such model that can only look backward in time is called a \textbf{causal} model. In (FIG) instead we don't have any such restriction and therefore the model is called \textbf{non-causal}.
+If we consider for example a model tackling the next-number prediction task seen at the beginning of this section, it clearly wouldn't make sense to make it non-causal. 
+
+\paragraph{Autoregressive modeling}
+Assume we are still in the setting of predicting the next item given the past items (e.g. language modeling or next-number prediction).
+Consider for example (FIG), if you consider a word as input and the corresponding word shifted by 1 character as target, then for each letter in the input sequence you want to predict the next one.
+Such a model is called \textbf{autoregressive} in the literature.
+When training such a model, the network obviously shouldn't be able to look ahead in the future. To enforce this behaviour, the network must be composed only of causal layers.
+ 
+More specifically, the model does not actually output for each token a single symbol, but rather a probability distribution over the set of symbols. Once it is trained, one can generate sequences by sequential sampling: at each step you have a sequence of seeds $[s_1, s_2, \dots]$ and you output a distribution $p(c \| s_1, s_2, \dots )$. You can then sample from this distribution and finally append the sampled symbol to the seed sequence. You can then iterate this procedure until the generation is complete.
+
+\paragraph{Sequence-to-sequence layers}
+For the sake of completeness, we will now mention some sequence-to-sequence layers without going into details.
+\textbf{Recurrent Neural Networks}, in (FIG), theoretically allow to look indefinitely far back in the sequence. In practice numerical issues may prevent this from happening though. 
+A major drawback of RNNs is that they cannot be parallelized, as the processing must be done sequentially. 
+\textbf{Convolutional Neural Networks} on the other hand allow to be parallelized, but these have limited rage both backward and forward. 
+To have both parallel computation and long dependencies in time, one must resort to \textbf{self-attention}.
+
+\paragraph{Self-attention}
+Consider a linear model from input to output 
+\begin{equation}
+    y_i = \sum_{ij} w_{ij} x_j
+\end{equation}
+where $x_j$ is the $j$-th token in the input, and $y_i$ is the $i$-th token in the output, with $i$ and $j$ representing time for the input and output respectively.
+However, in this case the $w_{ij}$ are not trainable weights. Instead, for a given position $i$, we compute the correlations over all $j$
+\begin{equation}
+    w^{\prime}_{ij} = x_i ^\top x_j.
+\end{equation}
+Now observe that if we use directly the $w^{\prime}$s as weights, we would be affected by the scale of the dot products. 
+To prevent this from happening, and also to only have positive weights, we therefore transform them so that each $w_{ij} > 0 $ and $\sum_j w_{ij} = 1$:
+\begin{equation}
+    w_{ij} = \frac{e^{w_{ij}^\prime}}{\sum_j e^{w_{ij}^\prime}}.
+\end{equation} 
+
+(ADD VECTORIZED EQUATIONS)
+Observe that the matrix $\mathbf{W}$ will be diagonally dominant, since typically $w_{ii}^\prime \geq w_{ij}^\prime$. 
+
+Consider now (FIG): we have an input sequence $x_1, \dots, x_6$ composed of $6$ moments in time, and we are focusing on the input position $3$. First, we compute the inner product of $x_3$ with all the other $x_i$s, obtaining the $w^\prime_{ij}$s. These are then normalized to be positive weights summing up to $1$ by applying the softmax. The sum of the $x_i$s weighted by these weights yields the output $y_3$.
+
+If now we assume that all the inner products are $0$, except of course the one of $x_3$ with itself, the softmax will make $w_{33}$ unitary and therefore the representation of $x_3$ will stay the same in the output. 
+In all other cases, \emph{i.e.} those in which there is actually some correlation between $x_3$ and the other $x_i$s, the output will be mostly $x_3$ plus some contribution from the other inputs, proportional to how much they are correlated. 
+It is worth noting again that self-attention is just a transformation with no trainable parameters. However, the input may be the result of a learned transformation.
+Even more importantly, no temporal information is used in this transformation: the sequences are seen as sets. If for example we switch one $x_i$ with another, the output tokens will be switched in the same way. Formally, this means that self-attention is \textbf{permutation-equivariant}:
+\begin{equation}
+    \pi \left( \text{SA} (x)\right) = \text{SA} \left(\pi(x)\right).
+\end{equation}
+% 44.15
+In (FIG), we see how self attention may be used in a Sequence-to-Label model: a sequence is passed to an embedding layer to obtain an embedding for each token; these are passed to a self-attention layer to obtain a transformed sequence. Finally, the latter is aggregated to obtain a single label. Note that the pooling operator must again work for sequences of any length, so we cannot for example use a MLP.
+Now, saying that we want to output whether a review is positive or negative, we can observe how a simple model may be tricked by the words `restaurant' and `terrible' in the same sentence. Instead, in order to make a correct guess, the model should identify a large correlation between `not' and `terrible'. If we are training our model, and the sample is given positive label, the model must enforce the dot product $x_{\text{not}}^\top x_{\text{terrible}}$ to be large. So, overall, the intuition is that the self-attention layer allows the model to capture the correlations between the inputs.
+
+%49.00
+\paragraph{Key, value, query}
+In what we have seen until now, each input vector actually played three roles in the self-attention layer
+\begin{align*}
+    {\color{orange}w}_{ij}' = \underbrace{{\color{lightblue}x}_i^\top}_{\mathrm{query}} \underbrace{{\color{lightblue}x}_j}_{\mathrm{key}} \\
+    %
+    {\color{darkgreen}y}_i = \sum_{ij} {\color{orange}w}_{ij} \underbrace{{\color{lightblue}x}_j}_{\mathrm{value}}
+\end{align*}
+\begin{enumerate}
+    \item being linearly combined with the others, we will call it \textbf{value};
+    \item in the left side of the dot product, we will call it \textbf{query};
+    \item in the right side of the dot product, we will call it \textbf{key}.
+\end{enumerate} 
+Now, it is possible to introduce trainable weights and biases
+\begin{align*}
+    {\color{orange}w}_{ij}' = {\color{lightblue}q}_i^\top {\color{lightblue}k}_j \\
+    %
+    {\color{darkgreen}y}_i = \sum_{ij} {\color{orange}w}_{ij} {\color{lightblue}v}_j
+\end{align*}
+where ${\color{lightblue}q} = Q{\color{lightblue}x} + b$ and similarly for ${\color{lightblue}k}$ and ${\color{lightblue}v}$.
+
+\paragraph{Causal self-attention}
+As we have seen, if we need an auto-regressive model, we must avoid looking ahead.
+We do this by only summing over the previous tokens in the sequence: 
+\[
+    {\color{darkgreen}y}_i = \sum_{\only<2>{ij}\only<3->{j\le i}} {\color{orange}w}_{ij} {\color{lightblue}x}_j
+\]
+To do this in matrix notation, we can simply apply \textbf{masking} as seen in \cref{fig:causal-self-attention-mask}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\textwidth]{figures/zeros}
+    \caption{Masking for causal self-attention.}\label{fig:causal-self-attention-mask}
+\end{figure}
+Now, reminding that $\mathbf{W}$ is obtained by taking the softmax of $\mathbf{W}^\prime$, we have to make sure that the upper triangular part of $\mathbf{W}^\prime$ we actually have $-\infty$, so to have $0$ when taking the softmax.
+Masking can also be used to encode other kind of structural priors.
+\paragraph{Position information}
+In some applications,  e.g. text or time series, removing the sequential structure is not advisable.
+A simple idea to overcome this issue is to employ a vector that encodes the position of the token in the sequence. This may be learned, and in this case it is generally called a \textbf{positional embedding}, or defined by some mathematical rule, and in this case it is called a \textbf{positional encoding}. You may also want to deal with relative positions instead of absolute ones, and again these can be either embedded or encoded.
+
+\paragraph{Transformers}
+A transformer is any model that primarily uses self-attention to propagate information across the basic tokens (e.g. vectors in a sequence, pixels in a grid, nodes in a graph, etc.). These are typically composed of so called \textbf{transformer blocks}, as the one seen in (FIG). These can be stacked up to form arbitrary deep networks, as in (FIG).
+
+\paragraph{Encoder-decoder model}
+A very succesful architecture is that of the transformer-based encoder-decoder model. Take for example (FIG), you feed the sequence to a transformer-based network and obtain a single latent vector. This is then fed to another transformer-based network that is tasked to predict the input shifted by one. The decoder is also fed the original input sequence; the intuition is that the encoding should be able to capture some more intrinsic information about the sequence, e.g. the semantics in text, while the raw input may be better to capture the syntax. 

@@ -1,0 +1,38 @@
+%!TEX root = ../../../root.tex
+
+We have seen how the gradient is central to the gradient descent algorithm, but do all (loss) functions behave so nicely, or is the gradient something that we cannot take for granted?
+
+Just like with functions $f: \mathbb{R} \to \mathbb{R}$, not all functions have well-defined derivatives across all their domain, \textit{i.e.} they are \emph{not differentiable}. Gradient descent requires the function under consideration to be differentiable, otherwise the gradient may not be well defined in certain points and the algorithm may fail abruptly. However, in $\mathbb{R}^n$ things are trickier than in $\mathbb{R}$, to establish the differentiability of a function. Indeed, if we already know that the function has a \emph{continuous} gradient, this means that the function is differentiable (sufficient condition), but we would rather like an ``inverse'' sufficient condition. It turns out that even if a function $f$ has all the partial derivatives (recall, they are the elements of the gradient vector $\gradient f = \mqty(\pdv{f}{x_1} & \dots & \pdv{f}{x_n}))$ well defined, this is only a necessary (not sufficient) condition for differentiability.
+
+Suppose we have the following function:
+\[
+    f(x,y) = 
+    \left\{ 
+        \begin{array}{ll}
+            0  & \textrm{at}~ (0,0)\\
+            \frac{x^2 y}{x^2 + y^2} & \textrm{elsewhere}
+        \end{array} 
+    \right.    
+\]
+
+The partial derivative $\pdv{y} f(x, y)$ is discontinuous at $(0, 0)$, since it is
+\[
+        \pdv{y} f(x, y) = \frac{x^2 (x^2 - y^2)}{(x^2 + y^2)^2}
+\]
+so 
+
+\begin{figure}[H]
+    \centering
+    \begin{overpic}
+		[trim=0cm 0cm 0cm 0cm,clip,width=0.99\linewidth]{06/diff}
+		\put(0,40){\footnotesize $\frac{\partial}{\partial y} f(x,0) = \frac{x^4}{x^4} = 1$ for $x\neq 0$}
+		\put(0,35){\footnotesize $\frac{\partial}{\partial y} f(0,y) = \frac{0}{y^4} = 0$ for $y\neq 0$}
+		\put(0,30){\footnotesize $\Rightarrow \frac{\partial}{\partial y} f(x,y)$ discontinuous at $(0,0)$}
+		\put(0,20){\footnotesize the partial derivatives of $f$ are}
+		\put(0,17){\footnotesize \emph{defined everywhere}, but are}
+		\put(0,14){\footnotesize \emph{discontinuous} at the origin}
+        \put(0,10){\footnotesize $\Rightarrow f$ is \emph{not differentiable}}.
+	\end{overpic}
+\end{figure}
+
+One does not usually encounter such loss functions, but it is not rare to come across non-differentiable loss functions. In these situations one should re-engineer the loss function in some way (e.g. the \emph{reparametrization trick} for VAEs, as we will see) to make it differentiable.

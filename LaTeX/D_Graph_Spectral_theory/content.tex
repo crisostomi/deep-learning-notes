@@ -1,0 +1,39 @@
+%!TEX root=../root.tex
+
+Let $\vb{A}$ be the adjacency matrix of a simple graph $G$. $\vb{A}$ is a real-symmetric matrix, and thus has $n$ real eigenvalues and its $n$ real eigenvectors form an orthonormal basis.
+
+Let $\{ \lambda_1, \dots, \lambda_i, \dots, \lambda_r\}$ be the set of \emph{distinct} eigenvalues.
+The eigenspace $S_i$ contains the eigenvectors associated with $\lambda_i$:
+\[
+	S_i = \{ x \in \mathbb{R} | \vb{Ax} = \lambda_i \vb{x}\}
+\]
+For real-symmetric matrices, the algebraic multiplicity is equal to the geometric multiplicity, for all the eigenvalues. As of that, the dimension of $S_i$ (which is the geometric multiplicity) is equal to the multiplicity of $\lambda_i$. Finally, if $\lambda_i \neq \lambda_j$ then $S_i$ and $S_j$ are mutually orthogonal.
+
+\paragraph{Real-valued functions}
+
+We consider real-valued functions on the set of the graph's vertices, $f: \mathbb{V} \mapsto \mathbb{R}$. Such a function assigns a real number to each graph node. $f$ is a vector indexed by the graph's vertices, hence $f \in \mathbb{R}^n$. The eigenvectors of the adjacency matrix $\vb{Ax} = \lambda \vb{x}$ can be seen as eigenfunctions.
+The adjacency matrix can also be viewed as an operator
+
+\begin{align}
+	\vb{g} &= \vb{Af} \\
+	g(i) &= \sum_{i \sim j} f(j)
+\end{align}
+or as a quadratic form 
+\begin{equation}
+	\vb{f}^\top\vb{Af} = \sum_{e_{ij}} f(i) f(j)
+\end{equation}
+
+If we fix for each edge in the graph an orientation, we can construct the \emph{incidence matrix} as follows 
+
+	\[\Delta = 
+	\begin{cases}
+		\Delta_{ev} = -1 & \text{if $v$ is the tail of $e$} \\ 
+		\Delta_{ev} = 1 & \text{if $v$ is the head of $e$} \\
+		\Delta_{ev} = 0 & \text{if $v$ is not in $e$}
+	\end{cases}
+\]
+
+The mapping $\vb{f} \mapsto \Delta \vb{f}$ is known as the \emph{co-boundary mapping} of the graph. 
+\begin{equation}
+	(\Delta \vb{f})(e_{ij}) = f(v_j) - f(v_i)
+\end{equation}

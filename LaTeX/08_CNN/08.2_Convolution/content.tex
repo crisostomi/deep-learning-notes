@@ -1,0 +1,38 @@
+%!TEX root=../../root.tex
+
+We have seen that data is often composed of \emph{hierarchical}, \emph{local}, \emph{shift-invariant} patterns, and we want to exploit that as a prior. A particular class of neural networks, called \emph{Convolutional Neural Network}s (CNNs) exploit this fact directly, through the distinctive operation that it applies to data: \emph{convolution}.
+
+Convolution is classically defined as an operation on two functions of a real-valued argument, that gives back another function. The term convolution refers to both the result function and to the process of computing it. 
+Given two functions $f, g: \mathbb{R} \rightarrow \mathbb{R}$ their \emph{convolution} is a function:  
+\begin{equation}
+    \underbrace{(f\star g)(t)}_{\emph{\textrm{feature map}}} = \int_{-\infty}^{+\infty} f(\tau) \underbrace{g(t-\tau)}_{\emph{\textrm{kernel}}} d \tau.
+\end{equation}
+
+Intuitively, the convolution formula can be described as a weighted average of the function $f(\tau)$ at the point $t$ where the weighting is given by $g(-\tau)$ simply shifted by amount $t$. As $t$ changes, the weighting function emphasizes different parts of the input function. 
+
+Operatively, computing convolution means performing the following steps:
+\begin{enumerate}
+    \item Express each function in terms of a dummy variable $\tau$;
+    \item Reflect one of the functions: $g(\tau ) \to g(-\tau )$;
+    \item Add a time-offset, t, which allows $g(t-\tau )$ to slide along the $\tau$-axis;
+    \item Start $t$ at $-\infty$ and slide it all the way to $+\infty$. Wherever the two functions intersect, find the integral of their product, which means consider the area under the curve of their intersection.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{08/convolution-steps}
+    \caption{Operative illustration of convolution.}
+\end{figure}
+
+In the following example, we have a red-colored ``pulse'', $g(\tau)$, and a blue-colored pulse $f(\tau)$. The amount of yellow is the area of the product $f(\tau )\cdot g(t-\tau )$, computed by the convolution integral. The animation is created by continuously changing $t$ and recomputing the integral. The result (shown in black) is a function of $t$, not of $\tau$, but is plotted on the same axis as $\tau$, for convenience and comparison.
+
+\begin{figure}[H]
+    \centering
+    \animategraphics[loop, autoplay, loop, width=0.7\textwidth]{20}{08/animations/convolution/convolution-}{0}{300}
+    \caption{Convolution of two identical ``pulse'' functions. If the animation is not displayed correctly, try to enable JavaScript in your PDF reader or use Adobe Reader which has the correct extensions already enabled.}
+\end{figure}
+
+\subsection{Properties} 
+\input{08_CNN/08.2_Convolution/08.2.1_Properties/content.tex}
+\subsection{Discrete Convolution} 
+\input{08_CNN/08.2_Convolution/08.2.2_Discrete/content.tex}

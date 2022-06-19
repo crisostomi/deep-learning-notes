@@ -1,0 +1,8 @@
+%!TEX root = ../../../root.tex
+
+A stationary point, for a differentiable function, is a point in which all the partial derivatives are zero, \textit{i.e.} the gradient is null. From the perspective of gradient descent this means that the method ``gets stuck'' in these stationary points:
+\begin{equation}
+    \mathbf{x}^{(t+1)} = {\color{red}\mathbf{x}}^{(t)} - \alpha \cancelto{0}{\nabla f(\mathbf{x}^{(t)})}.
+\end{equation}
+
+Why is this a problem? Are we not seeking these points, since they are the minima of the functions? Well, (local) minima are one kind of stationary points, that also include local maxima and saddle points, points in which the function increases along an axis and decreases along another axis. To understand which is which analytically, one resorts to the second (partial) derivative test, which we will not delve into. Going back to the gradient descent, the type of stationary point to which the algorithm converges depends on the initialization; for instance, if we start precisely in a local maxima or a saddle point (although very unlikely in practice), the algorithm will immediately stop, since the gradient is zero, even though those are \textit{not} minima of the function.

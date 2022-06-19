@@ -1,0 +1,145 @@
+%!TEX root=../../../root.tex
+
+
+Suppose we have a function
+\begin{equation}
+    \vb{f} : \mathbb{R}^{\color{red}n} \to \mathbb{R}^{\color{darkgreen} m},
+\end{equation}
+defined as a composition of functions 
+\begin{equation}
+    \vb{f} = \vb{f}_l \circ \vb{f}_{l-1} \circ \dots \circ \vb{f}_2 \circ \vb{f}_1
+\end{equation}
+such that 
+\begin{equation}
+    \begin{aligned}
+        \vb{f}_1: \mathbb{R}^n \to \mathbb{R}^{d_1}, \\
+        \vb{f}_k: \mathbb{R}^{d_{k-1}} \to \mathbb{R}^{d_k}, \\
+        \vb{f}_l: \mathbb{R}^{d_{l-1}} \to \mathbb{R}^{m}.
+    \end{aligned}    
+\end{equation}
+
+This function will have a very straightforward computation graph, a chain going from $\vb{f}_1$ up to $\vb{f}_l$, computing ``hidden'' variables $\vb{h}_1, \dots, \vb{h}_{l-1}$ along the way. 
+Note that since it is $\vb{h}_{i} = \vb{f}_i(\vb{h}_{i-1})$ the following expressions are equivalent
+\begin{equation}
+    \pdv{\vb{f}_i}{\vb{h}_{i-1}} \equiv \pdv{\vb{h}_{i}}{\vb{h}_{i-1}}.
+\end{equation}
+
+Let $\vb{x} \in \mathbb{R}^n$ be the input to the computation graph, and suppose we want to compute 
+\begin{equation}
+    \underbrace{\pdv{\vb{f}}{\vb{x}} = \mathbf{J}_{\vb{x}} \vb{f}}_{\text{Jacobian}} = \underbrace{\mqty[
+        \pdv{f_1}{x_1} & \dots & \pdv{f_1}{x_n} \\
+        \vdots & \ddots & \vdots \\
+        \pdv{f_m}{x_1} & \dots & \pdv{f_m}{x_n}
+    ]}_{(m \times n)}.
+    \label{eq:07:3:4:jacobian}
+\end{equation}
+where note that $f_i$ is the $i$-th component of $\vb{f}$ while $\vb{f}_i$ is the $i$-th function in the composition.
+
+By the chain rule this would be
+\begin{equation}
+    \begin{aligned}
+        \mathbf{J}_{\vb{x}} \vb{f} & = \mathbf{J}_{\vb{h}_{l-1}} [\vb{f}_{l}] ~ \mathbf{J}_{\vb{x}} [\vb{f}_{l-1} \circ \dots \circ \vb{f}_2 \circ \vb{f}_1] \\
+        & = \mathbf{J}_{\vb{h}_{l-1}} [\vb{f}_{l}] ~ \mathbf{J}_{\vb{h}_{l-2}} [\vb{f}_{l-1}] ~ \mathbf{J}_{\vb{x}} [\vb{f}_{l-2} \circ \dots \circ \vb{f}_2 \circ \vb{f}_1] \\
+        & \vdots \\
+        & = \mathbf{J}_{\vb{h}_{l-1}} [\vb{f}_{l}] ~ \mathbf{J}_{\vb{h}_{l-2}} [\vb{f}_{l-1}] ~ \dots ~ \mathbf{J}_{\vb{h}_1} [\vb{f}_2] ~ \mathbf{J}_{\vb{x}}[\vb{f}_1]
+    \end{aligned}
+\end{equation}
+in which each computation of $\vb{J}_{\vb{x}} [\vb{f}] = \pdv{\vb{f}}{\vb{x}}$ is defined as in \cref{eq:07:3:4:jacobian} and thus returns a matrix, called again Jacobian
+\begin{equation}
+    \mathbf{J}_{\vb{x}} \vb{f} = \mathbf{J}_{l-1} ~ \mathbf{J}_{l-2} ~ \dots ~ \mathbf{J}_2 ~ \mathbf{J}_1
+\end{equation}
+where now the subscript is not the variable wrt which we are differentiating any longer but reminds us of the correct matrix.
+
+This is from an analytical point of view, and both procedures must perform this computation to arrive at the correct result; however, the different order in which they perform the several matrix multiplications leads to different computational cost.
+
+\begin{itemize}
+    \item Forward-autodiff will perform computations going forward, so it will first compute 
+    $$\vb{J}_1 = \pdv{\vb{f}_1}{\vb{x}},$$
+    then 
+    $$\vb{J}_2 \vb{J}_1 = \pdv{\vb{f}_2}{\vb{h}_1} \pdv{\vb{f}_1}{\vb{x}}$$
+    then
+    $$\vb{J}_3(\vb{J}_2 \vb{J}_1) = \pdv{\vb{f}_3}{\vb{h}_2} \pdv{\vb{f}_2}{\vb{h}_1} \pdv{\vb{f}_1}{\vb{x}}$$
+    so that finally we will have
+    \begin{equation}
+        \mathbf{J}_{l-1} ( \mathbf{J}_{l-2} (\cdots (\mathbf{J}_{3}(\mathbf{J}_{2}\mathbf{J}_{1})))).
+    \end{equation}
+
+    \item Reverse-autodiff will instead perform computations going backward, so it will first compute
+    $$\vb{J}_{l-1} = \pdv{\vb{f}_l}{\vb{h}_{l-1}},$$
+    then
+    $$\vb{J}_{l-1} \vb{J}_{l-2} = \pdv{\vb{f}_l}{\vb{h}_{l-1}} \pdv{\vb{f}_{l-1}}{\vb{h}_{l-2}},$$
+    then
+    $$(\vb{J}_{l-1} \vb{J}_{l-2}) \vb{J}_{l-3} = \pdv{\vb{f}_l}{\vb{h}_{l-1}} \pdv{\vb{f}_{l-1}}{\vb{h}_{l-2}} \pdv{\vb{f}_{l-2}}{\vb{h}_{l-3}}$$
+    so that finally we will have
+    \begin{equation}
+        (((( \mathbf{J}_{l-1} \mathbf{J}_{l-2}) \mathbf{J}_{l-3})\cdots)\mathbf{J}_{2})\mathbf{J}_{1}.
+    \end{equation}
+\end{itemize}
+
+Let's compare the computational cost of such procedures. We will consider as ``elementary operation'' the multiplication involved in each \emph{dot product} required to compute one entry of a matrix, i.e. to compute
+\begin{equation}
+    \mqty[
+        \vb{a}^{\top} \vb{b} & \cdot & \cdot \\
+        \cdot & \cdot & \cdot \\
+        \cdot & \cdot & \cdot
+    ] = \mqty[\horzbar & \vb{a}^{\top} & \horzbar \\
+    \dots & \dots & \dots \\
+    \dots & \dots & \dots] 
+    \mqty[\vertbar & \vdots & \vdots \\
+    \vb{b} & \vdots & \vdots \\
+    \vertbar & \vdots & \vdots],
+\end{equation}
+if $\vb{a}, \vb{b} \in \mathbb{R}^d$, it would require $d$ operations.
+
+\begin{itemize}
+    \item \textbf{Forward-autodiff}.\\
+    $\vb{J}_1$ is a $(d_1 \times n)$ matrix, while $\vb{J}_2$ is a $(d_2 \times d_1)$ matrix, so $\vb{J}_2 \vb{J}_1$ will be a $(d_2 \times n)$ matrix. 
+    
+    $\vb{J}_3$ is a $(d_3 \times d_2)$ matrix, so $\vb{J}_3 (\vb{J}_2 \vb{J}_1)$ will be a $(d_3 \times n)$ matrix.
+
+    Notice how the matrix being computed always has $n$ columns, since we expand leftward and the rightmost matrix in the computation is always $\vb{J}_1$. In fact the generic computation will be
+    \begin{equation}
+        \vb{J}_{1:k} = \vb{J}_{k} ~ \vb{J}_{1:k-1} = \vb{J}_k ~ (J_{k-1} (J_{k-2}(\cdots (\vb{J}_3 (\vb{J}_2 \vb{J}_1))))
+    \end{equation}
+    in which $\vb{J}_{k}$ will be a $(d_k \times d_{k-1})$ matrix and $\vb{J}_{1:k-1}$ will be a $(d_{k-1} \times n)$ matrix, so the result will be a $(d_k \times n)$ matrix. 
+    
+    Each one of these computations will thus require to fill a $(d_{k} \times n)$ matrix with dot products between vectors of dimension $d_{k-1}$, thus resulting in a total complexity of
+    \begin{equation}
+        \sum_{k=2}^{l-1} d_k ~ n ~ d_{k-1} + \underbrace{m ~ n ~ d_{l-1}}_{\mathclap{\text{last step}}} \approx  n\sum_{k=1}^{l-2} d_k d_{k+1}
+    \end{equation}
+    by neglecting the last computation on the ``output'' function.
+
+    \item \textbf{Backward-autodiff}.\\
+    We proceed with an identical reasoning as before. Now we start from $\vb{J}_{l-1}$ that is a $(m \times d_{l-1})$ matrix, and we expand rightward so the leftmost matrix in the generic computation will always be $\vb{J}_{l-1}$. In fact the generic computation will be
+    \begin{equation}
+        \vb{J}_{l-1:k} = \vb{J}_{l-1:k+1} ~ \vb{J}_{k} = ((\vb{J}_{l-1} \vb{J}_{l-2}) \vb{J}_{l-3}) \cdots ) \vb{J}_{k+2} ) \vb{J}_{k+1}) ~ \vb{J}_{k}
+    \end{equation}
+    in which $\vb{J}_{l-1:k+1}$ will be a $(m \times d_{k+1})$ matrix and $\vb{J}_{k}$ will be a $(d_{k+1} \times d_k)$ matrix, so the result will be a $(m \times d_k)$ matrix.
+
+    Again, each one of these computations will therefore require to fill a $(m \times d_k)$ matrix with dot products between vectors of dimension $d_{k+1}$, thus resulting in a total complexity of
+    \begin{equation}
+        \sum_{k=l-1}^{2} m ~ d_k ~ d_{k+1} + \underbrace{m ~ n ~ d_{1}}_{\mathclap{\text{last step}}} \approx m \sum_{k = 2}^{l-1} d_{k} d_{k+1}
+    \end{equation}
+    by neglecting the last computation on the ``input'' function.
+\end{itemize}
+
+Looking at the results of this analysis, we can make some observations.
+\begin{itemize}
+    \item  Forward-autodiff requires $n$ traversals (notice how the sum index spans the layers of the network) to compute the Jacobian. 
+    Forward-autodiff can compute the derivatives of \emph{all the output variables wrt to a single input variable} in a single pass. 
+    Since there are $n$ input variables, the procedure requires $n$ traversals.
+    
+    Intuitively, recall that it computes derivatives going forward in the graph, and a single input variable influences (in the computation graph has paths leading to) in principle every output variable, so all of them will be reached in a single pass. At each step in the traversal it looks at the variables reached so far and uses them in all the computations in which they are required to go forward, accumulating the derivatives always wrt to the input variable under consideration.
+
+    \item On the other hand, reverse-autodiff requires $m$ traversals (again notice the sum index, that in the first equation has been written going ``backward'' to highlight the backward spanning of the network layers) to compute the Jacobian.
+    Reverse-autodiff can compute the derivatives of \emph{all the input variables wrt to a single output variable} in a single pass.  
+    Since there are $m$ output variables, the procedure requires $m$ traversals.
+    
+    Intuitively, recall that it computes derivatives going backward in the graph, and a single output variable is influenced (in the computation graph has paths coming from) in principle every input variable, so all of them will be reached in a single pass. At each step in the traversal it looks at the variables reached so far and looks at the variables needed for computing them to go backward, accumulating derivatives always of the output variable under consideration.
+\end{itemize} 
+
+So, the complexity of the two approaches is indeed influenced by the dimensionality of the domain and the codomain of the function $f$ under consideration. This means that: 
+\begin{itemize}
+    \item forward-autodiff is best suited when derivatives are needed for functions $\vb{f}: \mathbb{R} \to \mathbb{R}^m$;
+    \item reverse-autodiff is best suited in the other extreme case of needing derivatives for functions $f: \mathbb{R}^n \to \mathbb{R}$. 
+\end{itemize}

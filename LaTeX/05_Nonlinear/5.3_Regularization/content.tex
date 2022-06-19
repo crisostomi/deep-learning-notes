@@ -1,0 +1,54 @@
+%!TEX root = ../../root.tex
+
+Sometimes our prior knowledge can be expressed in terms of an energy. For example in polynomial regression we may want to avoid large parameters in order to counteract overfitting and thus control the complexity of the learning model; for this purpose, we can sum to our minimization problem the squared \emph{Frobenius norm} (a type of \emph{matrix norm} that generalizes the $L_2$ norm defined for vectors to matrices, so it is often referred to as simply $L_2$ norm, see \cref{def:entry-norm}) of the parameters. In this case, the \emph{regularizer} would be
+\begin{equation}
+    \| \mathbf{\Theta} \|^2_F = \left( \sqrt{\sum_{i} \sum_{j} |\Theta_{ij}|^2 } \right)^2 = \sum_{i} \sum_{j} |\Theta_{ij}|^2 = tr(\Theta^{\top} \Theta).
+\end{equation}
+
+\begin{defn}[Entry-wise norms]\label{def:entry-norm}
+    These norms treat an $m \times n$  matrix as a vector of size $m \cdot n$, and use one of the familiar vector norms. For example, using the $p$-norm for vectors, $p \geq 1$, we get:
+\begin{equation}
+    \displaystyle{\|A\|_{p,p}=\|\mathrm {vec} (A)\|_{p}=\left(\sum _{i=1}^{m}\sum _{j=1}^{n}|a_{ij}|^{p}\right)^{1/p}}
+\end{equation}
+The special case $p = 2$ is the Frobenius norm, and $p = \infty$ yields the maximum norm.
+
+\end{defn}
+
+In general, the regularizer is a function that depends on the parameters, over which it enforces some soft constraint by producing a scalar that is higher the more violated the constraint is. In this case, the soft constraint would be to bring the norm of the parameters as close to zero as possible. Of course this would make the model useless, so we need to balance the regularizer action with the representational power of the model. This is achieved by a scalar $\lambda$ which trades off fidelity with respect to data with fidelity with respect to the regularizer, so 
+\begin{itemize}
+	\item $\lambda = 0$ means we just want to be as good as possible on the data, while
+	\item $\lambda = \infty$ means that we do not care about the data, we are just asking for very small values for parameters.
+\end{itemize}
+
+The minimization problem thus becomes
+\begin{equation}
+	\argmin_\mathbf{\Theta} \underbrace{\ell_\Theta}_\text{data term} + \underbrace{\lambda}_\text{trade-off} \cdot \underbrace{\| \mathbf{\Theta} \|^2_F}_\text{regularizer}.
+\end{equation}
+Adding a quadratic penalty to the loss is also known as \emph{weight decay}. Other common names are \emph{ridge} regularization, or \emph{Tikhonov} regularization. Controlling the parameter growth is generally known as \emph{shrinkage}, and weight decay is not the only way to do so: for instance the $L_1$ norm gives rise to \emph{lasso} regularization, that has the following expression
+\begin{equation}
+	\min_\mathbf{\Theta} \ell_\Theta + \lambda| \mathbf{\Theta} |
+\end{equation}
+and induces \emph{sparsity}, since every parameter will receive an equal ``push'' towards zero, regardless of their magnitude. On the other hand the ridge regularization induces a ``push'' that will be proportional to the actual magnitude of the parameter, so larger parameters will go faster to zero than smaller parameters, resembling an exponential decay (hence the name). With $L_1$ regularization, when a parameter is zero it will stay at zero, therefore achieving \emph{sparsity} i.e. the model has some irrelevant parameters, and the matrix representing them is sparse. 
+
+Why does all of that happen? We have not yet seen how the training actually modifies the parameters to minimize the loss function, but we can anticipate that it has to do with gradients. This suffices to build an intuition on why the $L_1$ and $L_2$ behave this way. Let's take a single (scalar) parameter $\theta \in \Theta$, and let's compute the gradient (that reduces to a single partial derivative) of the two regularizers with respect to $\theta$.
+\begin{align}
+    \pdv{\theta}\left(\lambda \norm{\mathbf{\Theta}}_1 \right) = \begin{cases}
+        \lambda, & \theta > 0 \\
+        - \lambda, & \theta < 0
+    \end{cases} \\
+    \pdv{\theta} \left( \lambda \norm{\mathbf{\Theta}}_2 \right)= 2 \lambda \theta
+\end{align}
+We want to minimize the energy function given by the regularizers, so we want the push on $\theta$ to go in the opposite direction with respect to the derivative, hence the $L_1$ regularizer acts on $\theta$ as $-\lambda$ if $\theta > 0$ and $\lambda$ if $\theta < 0$, while the $L_2$ regularizer as $-2\lambda \theta$. Looking at this regularizing actions, we can appreciate how indeed the description made above is true, although not very rigorous.
+
+In general, $p$-norms are a good choice for regularizers, since thery are always convex. We have seen that $\ell_\Theta$ is convex, and the sum of two convex functions is still convex. This is very important since it means that we can hope to find a closed-form expression for the global optimum to the minimization problem
+\begin{equation}
+    \argmin_{\Theta} \ell_\Theta + \lambda \norm{\Theta}_p^2.
+\end{equation}
+
+Moreover, note that any $p$-norm will not be linear in $\mathbf{\Theta}$ because there is at least the absolute value.
+
+Other regularizers induce other desired properties on the parameters. In general, regularization allows us to impose some expected behavior from our learning model, it allows to control the complexity of the model and by controlling the complexity it actually allows us to reduce the need for lots of data because this is imposing some kind of behavior. Note that regularizers are not always defined as penalties included in the loss functions.
+\begin{defn}[Regularization]
+	Any modification that is intended to reduce the generalization error but not the training error.
+\end{defn}
+Other forms include the choice of a representation, \emph{early stopping} and \emph{dropout}.
