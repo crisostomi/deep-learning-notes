@@ -51,18 +51,18 @@ Let's try to be more formal now. The update rule of standard gradient descent, o
         \mathbf{x}^{(2)} &= \mathbf{x}^{(1)} - \alpha \nabla f(\mathbf{x}^{(1)})  \\
         &= \mathbf{x}^{(0)}- \alpha \nabla f(\mathbf{x}^{(0)})  - \alpha \nabla f(\mathbf{x}^{(1)})  \\
         \vdots & \\
-        \mathbf{x}^{(t+1)} & = \mathbf{x}^{(0)} - \alpha \sum_{i=1}^t \nabla f(\mathbf{x}^{(i)}).
+        \mathbf{x}^{(t+1)} & = \mathbf{x}^{(0)} - \alpha \sum_{i=0}^t \nabla f(\mathbf{x}^{(i)}).
     \end{aligned}
 \end{equation}
 
 Repeating the same procedure with the momentum we get
 \begin{equation}
-    \mathbf{x}^{(t+1)} = \mathbf{x}^{(0)} + \alpha \sum_{i=1}^t \frac{1-\lambda^{t+1-i}}{1-\lambda} \nabla f(\mathbf{x}^{(i)})
+    \mathbf{x}^{(t+1)} = \mathbf{x}^{(0)} + \alpha \sum_{i=0}^t \frac{1-\lambda^{t+1-i}}{1-\lambda} \nabla f(\mathbf{x}^{(i)})
 \end{equation}
 in which we can explicitly see the effect of accumulating gradients. Each gradient is multiplied by a factor that is exponentially closer to zero the furthest back in the past the gradient is, since $\lambda \leq 1$.
 
 This generalizes to the following form
 \begin{equation}
-    \mathbf{x}^{(t+1)} = \mathbf{x}^{(0)} + \alpha \sum_{i=1}^t \Gamma_i^{t} \nabla f(\mathbf{x}^{(i)}) \quad\textrm{for some diagonal matrix}~\Gamma_i
+    \mathbf{x}^{(t+1)} = \mathbf{x}^{(0)} + \alpha \sum_{i=0}^t \Gamma_i^{t} \nabla f(\mathbf{x}^{(i)}) \quad\textrm{for some diagonal matrix}~\Gamma_i
 \end{equation}
 and many optimization algorithms (ADAM, AdaGrad, etc.) derived by gradient descent, take this form, with different specific rules for the diagonal matrix, that gives more or less importance to the various components of the gradient vector in a linear and decoupled way.
